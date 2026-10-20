@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avni Chat — Firebase Connection Check</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;font-family:Inter,system-ui,Arial;color:#f8f5ff;background:radial-gradient(ellipse at 20% 0%,#30205c,transparent 45%),radial-gradient(ellipse at 90% 20%,#461d4c,transparent 35%),#090817}
+.card{width:min(100%,440px);padding:26px;border:1px solid #ffffff28;border-radius:24px;background:#ffffff0c;box-shadow:0 20px 70px #0006}h1{margin:0 0 8px}p{color:#c7bfdc;line-height:1.5}.field{display:block;margin:14px 0 6px;color:#ded5f4;font-size:14px}input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #ffffff30;background:#100d22;color:white;font-size:16px}button{width:100%;padding:13px;margin-top:12px;border:0;border-radius:12px;background:linear-gradient(90deg,#8b5cf6,#ec4899);color:white;font-weight:700;font-size:15px}button.secondary{background:#ffffff12;border:1px solid #ffffff2b}.msg{margin-top:14px;padding:12px;border-radius:12px;background:#ffffff0d;white-space:pre-wrap;overflow-wrap:anywhere}.small{font-size:12px;color:#9c93b8}
+</style>
+</head><body><main class="card">
+<div style="color:#d7baff;letter-spacing:.18em;font-size:12px">🦋 AVNI CHAT</div>
+<h1>Firebase test</h1>
+<p>Use this page to test email/password authentication for your Firebase project. It does not yet connect the 20 Stitch screens into a complete chat app.</p>
+<label class="field" for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+<label class="field" for="password">Password (at least 6 characters)</label><input id="password" type="password" autocomplete="current-password" placeholder="Password">
+<button id="signup">Create account</button><button id="login" class="secondary">Log in</button><button id="logout" class="secondary">Log out</button>
+<div id="status" class="msg" role="status">Checking Firebase…</div>
+<p class="small">Before testing: Firebase Console → Authentication → Sign-in method → Email/Password ON and saved. Never put service-account/private admin keys in this website.</p>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { firebaseConfig } from "./firebase-config.js";
+const status = document.getElementById("status");
+let auth;
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  onAuthStateChanged(auth, user => { status.textContent = user ? "Logged in as: " + user.email + "\nUID: " + user.uid : "Not logged in. Firebase initialized successfully."; });
+} catch (e) { status.textContent = "Firebase setup error: " + e.message; }
+const email = () => document.getElementById("email").value.trim();
+const password = () => document.getElementById("password").value;
+async function run(action) {
+  if (!auth) return;
+  if (!email() || !password()) { status.textContent = "Email aur password dono bharo."; return; }
+  status.textContent = "Please wait…";
+  try {
+    const credential = await action();
+    status.textContent = "Success: " + (credential?.user?.email || "Logged out");
+  } catch (e) { status.textContent = "Error: " + e.code + "\n" + e.message; }
+}
+document.getElementById("signup").onclick = () => run(() => createUserWithEmailAndPassword(auth,email(),password()));
+document.getElementById("login").onclick = () => run(() => signInWithEmailAndPassword(auth,email(),password()));
+document.getElementById("logout").onclick = async () => { try { await signOut(auth); status.textContent = "Logged out successfully."; } catch(e) { status.textContent = e.message; } };
+</script></body></html>
