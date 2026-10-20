@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config" id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout"><div class="flex flex-col w-full h-full overflow-hidden">
+<div class="flex-1 grid grid-cols-12 h-full overflow-hidden">
+<!-- LEFT COLUMN: STATUS FEED & RECENT UPDATES (3.5 cols) -->
+<aside class="col-span-12 lg:col-span-4 xl:col-span-3 h-full flex flex-col bg-surface-container-lowest/80 backdrop-blur-2xl overflow-hidden shadow-2xl relative z-10">
+<!-- Sticky Header & Status Navigation -->
+<div class="p-space-lg pb-space-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-headline-sm" style="font-variation-settings: 'FILL' 1;">motion_photos_on</span>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Status &amp; Stories</h1>
+</div>
+<button aria-label="Status Settings" class="w-8 h-8 rounded-full bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-body-md">tune</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Ephemeral moments disappearing in 24 hours</p>
+</div>
+<!-- Feed Scrollable List -->
+<div class="flex-1 overflow-y-auto px-space-md space-y-space-md pb-space-lg">
+<!-- 'My Status' Hero Card -->
+<div class="group relative rounded-DEFAULT bg-surface-container-low hover:bg-surface-container p-space-md transition-all duration-300 shadow-md cursor-pointer overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-primary-container/10 rounded-full blur-xl group-hover:bg-primary-container/20 transition-all"></div>
+<div class="flex items-center gap-space-md">
+<div class="relative shrink-0">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-highest p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="Close-up portrait of Avni, a young South Asian woman with radiant gentle smile, bathed in electric neon violet and deep midnight indigo ambient rim lighting, hyper-realistic, 8k cinematic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByuEKKpVLpcSDFDBUqSMzpOkLleThNVs6IFfhx2ntqHG4xkGzKxCoLYOZ9TfmgV1t_xdMIswVeOGfjsjpx_DiyZVerWc26ock79IGgmkmFwXz9X_OJSTVqbBbE_rkoOBNvvyNz-pMzPSoPTs0Z_zUwU7ZfyDstAdkveBO7gWOO-8sl9gqaN3aLqK1dp6WlSfsUXbsQSBtuXiK_lO4dQurkfPmASP513oGNaLT5NbOCCgEfhSFn6zOFUg"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-tr from-inverse-primary to-secondary flex items-center justify-center text-on-primary shadow-glow transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-label-sm font-bold">add</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h2 class="font-label-lg text-label-lg text-on-surface truncate">My Status</h2>
+<p class="font-body-sm text-body-sm text-outline truncate">Tap to add photos, video, or text</p>
+</div>
+</div>
+</div>
+<!-- Section: Recent Updates (Unviewed Stories) -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between px-space-xs py-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Recent Updates</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/60 text-secondary-fixed text-label-sm font-semibold">4 New</span>
+</div>
+<!-- Item 1: Active Rohan Sharma -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT bg-surface-container-high/80 shadow-md cursor-pointer relative overflow-hidden transition-all duration-200" id="item-rohan">
+<div class="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-secondary to-primary-container rounded-r-full"></div>
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-gradient-to-tr from-secondary via-primary to-tertiary shadow-glow">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Candid portrait of Rohan Sharma, a handsome Indian man with a trim beard wearing a dark hoodie against an aesthetic blurred mountain sunset with violet twilight tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIdnaEg554FiTHzpXYN3ynZzTwfCPj1OZ4u5TiDplsE01YstxkUKWF8ZSvfKF3u20wtbrDa9ECYoHHyKR5VKUSW2i66OicgEvM3uzeraIt6KO8XN9ldyQOb7icevP1sr_Gj_3R7EZ6coStG3pdX93e5Wr4T-LHGaMbr9Fmy9S83H4Qvg--OWOFTL9_1QvwPFnwVSuLFYKx5SwyPGtaSshOeAdauDZ6ItZffNka8f5xAbGuRdzB1za1ng"/>
+</div>
+</div>
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-surface-container-lowest flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary"></div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Rohan Sharma</p>
+<span class="font-label-sm text-label-sm text-secondary font-medium">25m ago</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">3 updates • Mountain roadtrip</p>
+</div>
+</div>
+</div>
+<!-- Item 2: Priya Sharma -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT hover:bg-surface-container-high/50 cursor-pointer transition-colors">
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-gradient-to-tr from-secondary to-primary">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Warm aesthetic shot of Priya Sharma laughing spontaneously at a night coffee lounge, ambient soft purple neon string lights in background, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDBBRjRgncpIxhODIjeGTRqQVXHH_uNG_3oL6k3997hWFb228BWct31sy9p2eruMT8F07lyUCUllOCWmQXypdweNC1A-ME-Ib0L5G8HbszjvwPLvZ8FjIG_EgVbn1imr6cCz7lXXZFar3GUg8rXKNscNJsjf05qZ0-0X6W9VTWQu4lAVUvXp_bhGLuWLRTRfxfZW4TK8cBAihy27b-Gia6NSKlFMWAl5Ul7r0x9gOS6sCEBjpHsIpBmw"/>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Priya Sharma</p>
+<span class="font-label-sm text-label-sm text-outline">1h ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline truncate">1 update • Acoustic coffee acoustic sessions ☕</p>
+</div>
+</div>
+<!-- Item 3: Neha Patel -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT hover:bg-surface-container-high/50 cursor-pointer transition-colors">
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-gradient-to-tr from-primary to-tertiary">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Stylized portrait of Neha Patel smiling in city evening lights with cool cyan and indigo atmospheric bokeh glow, modern chic lifestyle photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOAlNFezTzmT3kK8iQBIv9olpF6OU-Irt3Y_P82ytmVO0SHxzQ9cvOYWNbmJ2FGbCUOLg4VGx_s-ZOO52Y-t-cfVhRDZBsNkiKqM8-7tEd8emKlm8UrsTiXMGX3g0vW_ig9q92tLAslk2rdP5Cm_DVKYiRnjAgxZltfyXyyGyX83XdLZx2kWqEB8OH-wQ3ChLHFDt8IXLnKdJMP0dCxNmHn5q3V1j1_5019_BsO3TyrTb2nBm97lfvtQ"/>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Neha Patel</p>
+<span class="font-label-sm text-label-sm text-outline">3h ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline truncate">2 updates • Design studio launch 🎉</p>
+</div>
+</div>
+<!-- Item 4: Imran Khan -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT hover:bg-surface-container-high/50 cursor-pointer transition-colors">
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-gradient-to-tr from-secondary-fixed-dim to-secondary">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Portrait of Imran Khan wearing round glasses, looking through a retro film camera lens in an evening urban setting, deep violet shadows and warm rim light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjqOS5piwmUVJKVtanUwvCjeCj8jLJCgiDnLMdnRAVIdrfkA56pGdbwU4qbkujc4bbD4CvEKH3EqmBbffjEDbH1rNGTPT7tPmRe_ZDERPKfydlQcrMbxybRlY_7eQ7gl0JovEAhUnR_o8U88XA2ZuEi52IfD4Rc_8g5okVOqtAKl2otjD2PZjgV-dRpsFxCanpgnzr2NxjbtzkFNDRnlo-MlxV32MCYHmd9f3roG34QxsYYkkr0diYvw"/>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Imran Khan</p>
+<span class="font-label-sm text-label-sm text-outline">5h ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline truncate">1 update • Night photography walk</p>
+</div>
+</div>
+</div>
+<!-- Section: Viewed Updates (Muted Rings) -->
+<div class="space-y-space-xs pt-space-xs">
+<div class="px-space-xs py-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Viewed Updates</span>
+</div>
+<!-- Item 5: Aman Verma -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT opacity-75 hover:opacity-100 hover:bg-surface-container-high/40 cursor-pointer transition-all">
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-outline-variant/60">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="Relaxed portrait of Aman Verma outdoors during nightfall, gentle cool blue tones with ambient subtle streetlights in distance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOOp1a-OQTLfILXIFBzOKVFQ_ff495Jt8hV48m6aGEqL7WCCTjRzx2J5FfOFoKK4gSJgjG8eSZsovbQrWOx606fky8TixhJ0l9J5PxnmmBDogdjB9mTE1c7W64L_hW2d0_S2MUfsJSk1zzNY6KjCAkYXnDY-_pa20uhEZRm8b5oe3geFRoGgF692OhSPDi-D2Km-wZ4EVRYosZjsHHQaBX2CeIG16wR2cdycDfEDLilale2zeRgGufSA"/>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Aman Verma</p>
+<span class="font-label-sm text-label-sm text-outline">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline truncate">Yesterday at 11:20 PM</p>
+</div>
+</div>
+<!-- Item 6: Family Group -->
+<div class="flex items-center gap-space-md p-space-sm rounded-DEFAULT opacity-75 hover:opacity-100 hover:bg-surface-container-high/40 cursor-pointer transition-all">
+<div class="relative shrink-0">
+<div class="w-13 h-13 p-0.5 rounded-full bg-outline-variant/60 flex items-center justify-center bg-surface-container-high">
+<div class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container text-on-surface-variant font-headline-sm">
+<span class="material-symbols-outlined text-headline-sm">diversity_3</span>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Family Circle</p>
+<span class="font-label-sm text-label-sm text-outline">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline truncate">Kavita &amp; 3 others shared updates</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN: INTERACTIVE FULL-STORY VIEWER (5.5 cols) -->
+<section class="col-span-12 lg:col-span-8 xl:col-span-6 h-full flex flex-col relative bg-surface-dim overflow-hidden shadow-2xl items-center justify-center p-space-md lg:p-space-lg">
+<!-- Atmosphere Ambient Glow Canvas Behind Modal -->
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/15 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Story Container Card -->
+<div class="w-full max-w-md h-full max-h-[820px] rounded-lg bg-surface-container-lowest/90 backdrop-blur-3xl shadow-glow flex flex-col overflow-hidden relative group">
+<!-- Background Wallpaper / Media Slide -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Majestic starry night sky above silhouette mountain ranges, glowing violet and indigo aurora borealis swirling across the cosmic starscape, cinematic photography with deep purple mist and high visual depth." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWqg38vpYtWmyM0CIrtukWw1Plr2ULMRN_QehDsEZWcWm1Zl52FIsJQLTlOBblWHotS00oJ1KkL0R4WXpMNTgWClvPAX1270smlt9J6-vDUIZe13Cv-H0rLfWfnUsQp1IAhpqvXLphvL4pkGxiSvLRWG8bPl2iykc9nN1gUL2AUoy6pn3PdmKUwNDfiXz9ZP30Q8MEN4RM0PNq2SKx9bykxT5gxlw00YzPOkQxJzZEEQw4Bk5w61VmPw')">
+<!-- Gradient Scrim for readable header & footer -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/90"></div>
+</div>
+<!-- TOP BAR: Segmented Progress Bars -->
+<div class="relative z-20 px-space-md pt-space-md pb-space-xs flex gap-1.5" id="story-progress-container">
+<!-- Slide 1 (Completed) -->
+<div class="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
+<div class="h-full bg-white w-full rounded-full"></div>
+</div>
+<!-- Slide 2 (Active Animated) -->
+<div class="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
+<div class="h-full bg-white w-2/3 rounded-full transition-all duration-300" id="current-slide-progress"></div>
+</div>
+<!-- Slide 3 (Upcoming) -->
+<div class="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
+<div class="h-full bg-white w-0 rounded-full"></div>
+</div>
+</div>
+<!-- TOP BAR: Story Creator Profile & Controls -->
+<div class="relative z-20 px-space-md py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/80" data-alt="Close-up avatar of Rohan Sharma smiling with a gentle look, rimmed by cyan atmospheric city light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqGaJAJbqoUro9juligLkOiE_1x_7f0XmbYVwAL1pAN3S2rv0avdwMJg29TAw5ExjKCc05Oqeo4He43XtiaeWLOaY1vFT4EDxBgk5yqm42cJtPwPLcZoLDpKfOEBnm9Q9n2d5Fz18uyeRyNDMvBATylD-y5DgenO-cZwprWY0hDcjA9OQRl8KGq1WDGgAYEEOPujdapw0NeANvuny1VX6u7LfUHwCdW0Ar2BwAlkabCPdIgG4TlN2CLA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-tertiary rounded-full ring-2 ring-black"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-white font-semibold">Rohan Sharma</span>
+<span class="material-symbols-outlined text-tertiary text-body-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-white/70">25 minutes ago</span>
+<span class="text-white/40">•</span>
+<span class="font-body-sm text-body-sm text-white/70">Slide 2 of 3</span>
+</div>
+</div>
+</div>
+<!-- Viewer Playback Actions -->
+<div class="flex items-center gap-1">
+<button aria-label="Pause Story" class="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors" id="pause-play-btn">
+<span class="material-symbols-outlined text-body-md" id="pause-icon">pause</span>
+</button>
+<button aria-label="Mute Audio" class="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-body-md">volume_up</span>
+</button>
+<button aria-label="Close Story Viewer" class="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-body-md">close</span>
+</button>
+</div>
+</div>
+<!-- STORY MAIN CANVAS: Centered Content Overlay -->
+<div class="relative z-10 flex-1 flex flex-col justify-end p-space-lg select-none">
+<!-- Next / Prev Tappable Areas -->
+<button aria-label="Previous Slide" class="absolute top-16 bottom-24 left-0 w-1/4 z-10 opacity-0 cursor-w-resize"></button>
+<button aria-label="Next Slide" class="absolute top-16 bottom-24 right-0 w-1/4 z-10 opacity-0 cursor-e-resize"></button>
+<!-- Floating Ambient Quote Card -->
+<div class="rounded-DEFAULT bg-surface-container-lowest/60 backdrop-blur-md p-space-lg shadow-xl space-y-space-sm mb-4">
+<div class="flex items-center gap-2 text-secondary">
+<span class="text-headline-sm">🏔️</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary-fixed">Spiti Valley High Passes</span>
+</div>
+<p class="font-headline-md text-headline-md text-white font-bold leading-snug tracking-tight">
+              “Night vibes in the mountains. Listening to lofi beats on Avni Chat ✨”
+            </p>
+<div class="flex items-center justify-between pt-space-xs text-white/80">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary animate-pulse text-body-md">graphic_eq</span>
+<span class="font-body-sm text-body-sm text-white/90">Midnight Rain • Lofi Dreams</span>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-white/10 text-white/80">4.2k Views</span>
+</div>
+</div>
+</div>
+<!-- BOTTOM INTERACTION / QUICK REACTION BAR -->
+<div class="relative z-20 p-space-md bg-black/60 backdrop-blur-xl flex flex-col gap-space-sm">
+<!-- Emojis Cluster -->
+<div class="flex items-center justify-around px-2">
+<button aria-label="Love reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="❤️">❤️</button>
+<button aria-label="Fire reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="🔥">🔥</button>
+<button aria-label="Applause reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="👏">👏</button>
+<button aria-label="Butterfly reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="🦋">🦋</button>
+<button aria-label="Sparkle reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="✨">✨</button>
+<button aria-label="Heart eyes reaction" class="reaction-emoji text-headline-sm hover:scale-125 transition-transform" data-emoji="😍">😍</button>
+</div>
+<!-- Input + Send Action -->
+<div class="flex items-center gap-space-sm">
+<div class="flex-1 flex items-center bg-surface-container-high/80 rounded-full px-space-md py-space-xs gap-space-sm">
+<input class="bg-transparent border-0 text-white placeholder-white/50 text-body-md font-body-md w-full focus:ring-0 p-0" id="story-reply-input" placeholder="Reply to Rohan..." type="text"/>
+<button aria-label="Voice Note Reply" class="text-white/60 hover:text-white">
+<span class="material-symbols-outlined text-body-md">mic</span>
+</button>
+</div>
+<button aria-label="Send Story Reply" class="w-11 h-11 rounded-full bg-gradient-to-r from-inverse-primary to-secondary text-on-primary flex items-center justify-center shadow-btn-glow hover:opacity-90 transition-all shrink-0" id="send-reaction-btn">
+<span class="material-symbols-outlined text-headline-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: CREATE NEW STATUS DRAWER & SETTINGS (3.5 cols) -->
+<aside class="col-span-12 xl:col-span-3 hidden xl:flex flex-col h-full bg-surface-container-lowest/80 backdrop-blur-2xl overflow-y-auto p-space-lg space-y-space-lg relative z-10">
+<!-- Panel Header -->
+<div class="flex items-center justify-between pb-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Create Status</h2>
+<p class="font-body-sm text-body-sm text-outline">Express your current vibe</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-body-md">auto_awesome</span>
+</div>
+</div>
+<!-- Creation Mode Selector Pill -->
+<div class="flex p-1 rounded-DEFAULT bg-surface-container-high">
+<button class="flex-1 py-1.5 rounded-DEFAULT bg-surface-container text-on-surface font-label-md text-label-md text-center shadow-sm flex items-center justify-center gap-1.5 transition-all" id="tab-text-mode">
+<span class="material-symbols-outlined text-body-sm text-secondary">title</span>
+          Text Status
+        </button>
+<button class="flex-1 py-1.5 rounded-DEFAULT text-outline hover:text-on-surface font-label-md text-label-md text-center flex items-center justify-center gap-1.5 transition-all" id="tab-media-mode">
+<span class="material-symbols-outlined text-body-sm">photo_library</span>
+          Media Upload
+        </button>
+</div>
+<!-- Live Composition Canvas Preview -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Interactive Preview</span>
+<span class="font-label-sm text-label-sm text-secondary">Auto-formatted</span>
+</div>
+<div class="w-full h-44 rounded-DEFAULT bg-gradient-to-br from-inverse-primary via-primary-container to-secondary p-space-lg flex flex-col justify-between shadow-glow relative overflow-hidden transition-all duration-300" id="preview-canvas">
+<div class="flex justify-between items-center text-white/80">
+<span class="material-symbols-outlined text-body-sm">format_quote</span>
+<span class="text-label-sm font-label-sm uppercase tracking-widest text-white/70">Avni Voice</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-white font-bold text-center leading-snug drop-shadow-md" id="preview-text">
+            Coding late into the midnight stars... 🌌💻
+          </p>
+<div class="flex justify-end items-center text-label-sm text-white/80 gap-1">
+<span class="material-symbols-outlined text-body-sm">music_note</span>
+<span class="text-body-sm font-body-sm">Neon Horizon</span>
+</div>
+</div>
+</div>
+<!-- Text Composer Field -->
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface" for="status-text-input">Status Message</label>
+<div class="relative">
+<textarea class="w-full rounded-DEFAULT bg-surface-container-high text-on-surface placeholder-outline font-body-md text-body-md p-space-md focus:ring-1 focus:ring-primary focus:outline-none resize-none transition-all" id="status-text-input" placeholder="What's happening? Type your thoughts..." rows="3"></textarea>
+<button aria-label="Emoji selector" class="absolute bottom-2.5 right-2.5 text-outline hover:text-secondary">
+<span class="material-symbols-outlined text-body-md">sentiment_satisfied</span>
+</button>
+</div>
+</div>
+<!-- Gradient Background Theme Selector -->
+<div class="space-y-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Cosmic Palette</span>
+<div class="grid grid-cols-5 gap-2">
+<button aria-label="Purple Violet Gradient" class="palette-option w-full h-9 rounded-full bg-gradient-to-br from-inverse-primary via-primary-container to-secondary shadow-md ring-2 ring-white transition-all transform scale-105" data-gradient="from-inverse-primary via-primary-container to-secondary"></button>
+<button aria-label="Magenta Velvet Gradient" class="palette-option w-full h-9 rounded-full bg-gradient-to-br from-secondary via-secondary-container to-surface-container-lowest shadow-md transition-all hover:scale-105" data-gradient="from-secondary via-secondary-container to-surface-container-lowest"></button>
+<button aria-label="Cyan Aurora Gradient" class="palette-option w-full h-9 rounded-full bg-gradient-to-br from-tertiary-container via-surface-container-high to-surface-dim shadow-md transition-all hover:scale-105" data-gradient="from-tertiary-container via-surface-container-high to-surface-dim"></button>
+<button aria-label="Monochrome Obsidian Gradient" class="palette-option w-full h-9 rounded-full bg-gradient-to-br from-surface-container-highest via-surface-bright to-surface-container shadow-md transition-all hover:scale-105" data-gradient="from-surface-container-highest via-surface-bright to-surface-container"></button>
+<button aria-label="Sunset Twilight Gradient" class="palette-option w-full h-9 rounded-full bg-gradient-to-br from-on-secondary-fixed-variant via-primary to-tertiary-fixed-dim shadow-md transition-all hover:scale-105" data-gradient="from-on-secondary-fixed-variant via-primary to-tertiary-fixed-dim"></button>
+</div>
+</div>
+<!-- Typography Selector -->
+<div class="space-y-space-xs">
+<span class="font-label-md text-label-md text-on-surface">Typographic Style</span>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 rounded-DEFAULT bg-surface-container-high text-primary font-label-md text-label-md text-center hover:bg-surface-bright transition-colors">
+            Sans Bold
+          </button>
+<button class="flex-1 py-1.5 rounded-DEFAULT bg-surface-container-low text-on-surface-variant font-label-md text-label-md text-center hover:bg-surface-bright transition-colors">
+            Serif Modern
+          </button>
+<button class="flex-1 py-1.5 rounded-DEFAULT bg-surface-container-low text-on-surface-variant font-label-md text-label-md text-center hover:bg-surface-bright transition-colors">
+            Neon Script
+          </button>
+</div>
+</div>
+<!-- Privacy Audience Selector -->
+<div class="space-y-space-sm pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Audience &amp; Privacy</span>
+<span class="material-symbols-outlined text-outline text-body-md">lock</span>
+</div>
+<div class="rounded-DEFAULT bg-surface-container-low p-space-sm space-y-space-xs">
+<!-- Radio 1: My Contacts -->
+<label class="flex items-center justify-between p-space-xs rounded-DEFAULT hover:bg-surface-container-high/60 cursor-pointer transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-body-md">contacts</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface leading-tight">My Contacts</p>
+<p class="font-body-sm text-body-sm text-outline">All approved phone contacts</p>
+</div>
+</div>
+<input checked="" class="text-inverse-primary focus:ring-primary bg-surface-container-highest" name="status_privacy" type="radio"/>
+</label>
+<!-- Radio 2: Contacts Except -->
+<label class="flex items-center justify-between p-space-xs rounded-DEFAULT hover:bg-surface-container-high/60 cursor-pointer transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-body-md">person_remove</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface leading-tight">My Contacts Except...</p>
+<p class="font-body-sm text-body-sm text-outline">Exclude 14 contacts</p>
+</div>
+</div>
+<input class="text-inverse-primary focus:ring-primary bg-surface-container-highest" name="status_privacy" type="radio"/>
+</label>
+<!-- Radio 3: Only Share With -->
+<label class="flex items-center justify-between p-space-xs rounded-DEFAULT hover:bg-surface-container-high/60 cursor-pointer transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-body-md">stars</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface leading-tight">Close Friends Only</p>
+<p class="font-body-sm text-body-sm text-outline">Share with 8 chosen people</p>
+</div>
+</div>
+<input class="text-inverse-primary focus:ring-primary bg-surface-container-highest" name="status_privacy" type="radio"/>
+</label>
+</div>
+</div>
+<!-- Action Publish Trigger Button -->
+<div class="pt-space-sm mt-auto">
+<button class="w-full py-space-sm px-space-lg rounded-full bg-gradient-to-r from-inverse-primary via-primary-container to-secondary text-on-primary font-label-lg text-label-lg font-bold shadow-btn-glow hover:opacity-95 transition-all flex items-center justify-center gap-2" id="publish-status-btn">
+<span class="material-symbols-outlined text-headline-sm">send_time_extension</span>
+          Publish to My Story
+        </button>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Client interaction handlers for Status screen
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Live status preview typing
+    const textInput = document.getElementById('status-text-input');
+    const previewText = document.getElementById('preview-text');
+    if (textInput && previewText) {
+      textInput.addEventListener('input', (e) => {
+        if (e.target.value.trim() !== '') {
+          previewText.innerText = e.target.value;
+        } else {
+          previewText.innerText = 'Coding late into the midnight stars... 🌌💻';
+        }
+      });
+    }
+
+    // 2. Color gradient picker for status creator
+    const previewCanvas = document.getElementById('preview-canvas');
+    const paletteButtons = document.querySelectorAll('.palette-option');
+    paletteButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        paletteButtons.forEach(b => {
+          b.classList.remove('ring-2', 'ring-white', 'scale-105');
+        });
+        btn.classList.add('ring-2', 'ring-white', 'scale-105');
+        const grad = btn.getAttribute('data-gradient');
+        if (previewCanvas && grad) {
+          previewCanvas.className = `w-full h-44 rounded-DEFAULT bg-gradient-to-br ${grad} p-space-lg flex flex-col justify-between shadow-glow relative overflow-hidden transition-all duration-300`;
+        }
+      });
+    });
+
+    // 3. Quick reaction click animation
+    const reactionButtons = document.querySelectorAll('.reaction-emoji');
+    const replyInput = document.getElementById('story-reply-input');
+    reactionButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const emoji = btn.getAttribute('data-emoji');
+        if (replyInput) {
+          replyInput.value = (replyInput.value + ' ' + emoji).trim();
+          replyInput.focus();
+        }
+      });
+    });
+
+    // 4. Pause / Play story toggle
+    const pausePlayBtn = document.getElementById('pause-play-btn');
+    const pauseIcon = document.getElementById('pause-icon');
+    let isPaused = false;
+    if (pausePlayBtn && pauseIcon) {
+      pausePlayBtn.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pauseIcon.innerText = isPaused ? 'play_arrow' : 'pause';
+        pausePlayBtn.setAttribute('aria-label', isPaused ? 'Play Story' : 'Pause Story');
+      });
+    }
+
+    // 5. Publish Status feedback
+    const publishBtn = document.getElementById('publish-status-btn');
+    if (publishBtn) {
+      publishBtn.addEventListener('click', () => {
+        const oldContent = publishBtn.innerHTML;
+        publishBtn.innerHTML = '<span class="material-symbols-outlined text-headline-sm">check_circle</span> Published Instantly!';
+        publishBtn.classList.add('opacity-90');
+        setTimeout(() => {
+          publishBtn.innerHTML = oldContent;
+          publishBtn.classList.remove('opacity-90');
+          if (textInput) textInput.value = '';
+        }, 2000);
+      });
+    }
+  });
+</script></main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Login</title>
+<!-- Tailwind CSS CDN v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'avni-purple': '#8B5CF6',
+            'avni-pink': '#EC4899',
+            'avni-dark': '#0B081E',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'Cambria', 'serif'],
+            handwriting: ['Caveat', 'cursive', 'Georgia'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-background">
+    /* Layered starry night and twilight mountain gradient background */
+    .bg-twilight-stars {
+      background: 
+        radial-gradient(circle at 18% 22%, rgba(139, 92, 246, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 75% 40%, rgba(217, 70, 239, 0.22) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.28) 0%, transparent 60%),
+        linear-gradient(180deg, #070514 0%, #0d0a27 35%, #1d1242 65%, #381559 85%, #591b65 100%);
+    }
+
+    /* Shooting star streak line */
+    .shooting-star {
+      position: absolute;
+      top: 14%;
+      left: 17%;
+      width: 140px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(192, 132, 252, 0.4), transparent);
+      transform: rotate(-35deg);
+      box-shadow: 0 0 8px #ffffff;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    .shooting-star::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -2px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 10px 3px #ffffff, 0 0 16px 6px rgba(168, 85, 247, 0.8);
+    }
+
+    /* Ambient stars generator */
+    .star-layer {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(1px 1px at 10% 12%, #fff 100%, transparent),
+        radial-gradient(1.5px 1.5px at 25% 18%, #fbcfe8 100%, transparent),
+        radial-gradient(1px 1px at 38% 8%, #e9d5ff 100%, transparent),
+        radial-gradient(1.5px 1.5px at 45% 26%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 62% 14%, #c084fc 100%, transparent),
+        radial-gradient(2px 2px at 78% 22%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 85% 9%, #f472b6 100%, transparent),
+        radial-gradient(1px 1px at 92% 31%, #fff 100%, transparent),
+        radial-gradient(1.5px 1.5px at 15% 42%, #e879f9 100%, transparent),
+        radial-gradient(1px 1px at 32% 54%, #fff 100%, transparent),
+        radial-gradient(2px 2px at 5% 68%, #f5d0fe 100%, transparent),
+        radial-gradient(1px 1px at 68% 62%, #fff 100%, transparent),
+        radial-gradient(1.5px 1.5px at 89% 52%, #fff 100%, transparent);
+      background-size: 100% 100%;
+      pointer-events: none;
+    }
+  </style>
+<style data-purpose="glassmorphism-card">
+    .glass-card {
+      background: rgba(18, 14, 38, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 50px -10px rgba(147, 51, 234, 0.35), 0 25px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+    .glass-input {
+      background: rgba(26, 20, 52, 0.65);
+      border: 1px solid rgba(139, 92, 246, 0.28);
+      transition: all 0.25s ease;
+    }
+    .glass-input:focus {
+      background: rgba(33, 25, 66, 0.85);
+      border-color: rgba(192, 132, 252, 0.7);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+      outline: none;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 35%, #d946ef 70%, #ec4899 100%);
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.45);
+      transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+      opacity: 0.95;
+      box-shadow: 0 6px 26px rgba(217, 70, 239, 0.6);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-twilight-stars text-slate-100 font-sans relative overflow-x-hidden selection:bg-purple-500 selection:text-white">
+<!-- BEGIN: NightSkyAtmosphere -->
+<!-- Ambient twinkling stars overlay -->
+<div class="star-layer"></div>
+<!-- Shooting Star Effect -->
+<div class="shooting-star"></div>
+<!-- Silhouette mountain range overlay at bottom for dusk realism -->
+<div class="absolute bottom-0 inset-x-0 h-64 pointer-events-none opacity-40 bg-gradient-to-t from-black via-purple-950/40 to-transparent">
+<svg class="absolute bottom-0 w-full h-48 text-[#110926] preserve-3d" fill="currentColor" viewbox="0 0 1440 320">
+<path d="M0,224L60,208C120,192,240,160,360,170.7C480,181,600,235,720,229.3C840,224,960,160,1080,160C1200,160,1320,224,1380,256L1440,288L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+</svg>
+</div>
+<!-- END: NightSkyAtmosphere -->
+<!-- BEGIN: MainContentContainer -->
+<main class="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-12 py-10">
+<div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+<!-- BEGIN: LeftBrandingSection -->
+<section class="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6" data-purpose="brand-introduction">
+<!-- Glowing Circular Avatar -->
+<div class="relative group" data-purpose="brand-avatar">
+<div class="absolute -inset-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500"></div>
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-b from-purple-300 via-pink-400 to-indigo-900 shadow-2xl overflow-hidden flex items-center justify-center">
+<!-- Stylized Silhouette Couple Inside Avatar -->
+<div class="w-full h-full rounded-full bg-gradient-to-b from-[#3a1d6e] to-[#120a2e] flex items-center justify-center relative overflow-hidden">
+<!-- Star speckles inside badge -->
+<span class="absolute top-3 left-4 w-1 h-1 bg-white rounded-full"></span>
+<span class="absolute top-6 right-5 w-1 h-1 bg-pink-200 rounded-full"></span>
+<span class="absolute top-10 left-8 w-0.5 h-0.5 bg-cyan-200 rounded-full"></span>
+<!-- Silhouette couple SVG -->
+<svg class="w-16 h-16 text-pink-300/90 mt-2" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" opacity="0.3"></path>
+<circle cx="9" cy="8" r="2.5"></circle>
+<circle cx="15" cy="9" r="2.3"></circle>
+<path d="M6 17c0-2.5 2-4 4-4s4 1.5 4 4v1H6v-1zm7.5 0c.3-1.6 1.6-2.8 3.2-2.8 1.4 0 2.6.9 3.1 2.2.1.2.2.4.2.6v1h-6.5v-1z"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Headline with Butterfly Emojis -->
+<div class="space-y-1">
+<h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold tracking-wide text-white flex items-center justify-center lg:justify-start gap-2.5 drop-shadow-[0_2px_15px_rgba(168,85,247,0.7)]">
+<span>🦋</span>
+<span>Avni Chat</span>
+<span>🦋</span>
+</h1>
+<p class="text-sm sm:text-base font-medium tracking-widest text-purple-200/90 uppercase pt-1">
+            Connect • Chat • Share
+          </p>
+</div>
+<!-- Poetic Script Quote -->
+<div class="pt-4 max-w-md" data-purpose="brand-quote">
+<p class="text-lg sm:text-xl text-purple-100 font-serif italic leading-relaxed drop-shadow">
+            “Har baat <span class="text-pink-300 font-semibold">khaas</span> hoti hai...<br class="hidden sm:inline"/> 
+            jab wo <span class="text-purple-300 font-semibold underline decoration-pink-500/50 underline-offset-4">Avni Chat</span> par ho ❤️”
+          </p>
+</div>
+</section>
+<!-- END: LeftBrandingSection -->
+<!-- BEGIN: RightLoginSection -->
+<section class="lg:col-span-6 flex justify-center lg:justify-end" data-purpose="login-form-wrapper">
+<div class="w-full max-w-md glass-card rounded-3xl p-7 sm:p-9 text-slate-100">
+<!-- Card Header -->
+<div class="text-center mb-6">
+<h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
+              Welcome Back! <span class="text-yellow-400">👋</span>
+</h2>
+<p class="text-sm text-purple-200/70 mt-1.5">Login to your account</p>
+</div>
+<!-- Google Login Button -->
+<div class="mb-5">
+<button class="w-full py-3 px-4 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-800 font-medium rounded-2xl flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-200" type="button">
+<!-- Official multi-color Google SVG icon -->
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.4 7.33 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.13z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.6 1.24 6.58l4.04 3.13c.95-2.83 3.6-4.96 6.72-4.96z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-semibold tracking-wide">Continue with Google</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="relative flex items-center justify-center my-6">
+<div class="border-t border-purple-400/25 w-full"></div>
+<span class="bg-[#15102f] px-3.5 py-0.5 rounded-full text-xs text-purple-300 font-medium tracking-wider lowercase border border-purple-400/20 shadow-inner">or</span>
+<div class="border-t border-purple-400/25 w-full"></div>
+</div>
+<!-- Form Start -->
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Email / Phone Field -->
+<div class="space-y-1">
+<label class="sr-only" for="identity-input">Email or phone</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-purple-300/60">
+<!-- Mail / Contact Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<rect height="16" rx="3" width="20" x="2" y="4"></rect>
+<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+</svg>
+</div>
+<input class="glass-input block w-full pl-11 pr-4 py-3 rounded-2xl text-sm placeholder-purple-300/40 text-white focus:ring-1 focus:ring-purple-400 border-none" id="identity-input" name="identity" placeholder="Email or phone" required="" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1">
+<label class="sr-only" for="password-input">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-purple-300/60">
+<!-- Lock Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+</div>
+<input class="glass-input block w-full pl-11 pr-11 py-3 rounded-2xl text-sm placeholder-purple-300/40 text-white focus:ring-1 focus:ring-purple-400 border-none" id="password-input" name="password" placeholder="Password" required="" type="password"/>
+<!-- Toggle Password Visibility Button -->
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-purple-300/60 hover:text-purple-200 transition" data-purpose="toggle-password-visibility" id="toggle-password" title="Show/Hide password" type="button">
+<!-- Eye Icon -->
+<svg class="w-5 h-5" fill="none" id="eye-icon" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+</div>
+</div>
+<!-- Options Row: Remember Me & Forgot Password -->
+<div class="flex items-center justify-between text-xs sm:text-sm pt-1">
+<label class="flex items-center space-x-2.5 cursor-pointer text-purple-200/80 hover:text-purple-100">
+<input checked="" class="w-4 h-4 rounded border-purple-400/40 bg-[#1e173e] text-purple-600 focus:ring-purple-500 focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer" type="checkbox"/>
+<span class="select-none text-xs sm:text-sm">Remember me</span>
+</label>
+<a class="text-xs sm:text-sm font-medium text-pink-400 hover:text-pink-300 transition-colors" href="#">
+                Forgot password?
+              </a>
+</div>
+<!-- CTA Login Button -->
+<div class="pt-2">
+<button class="btn-gradient w-full py-3.5 px-4 rounded-2xl text-white font-semibold text-sm tracking-wide shadow-lg cursor-pointer text-center" type="submit">
+                Login
+              </button>
+</div>
+</form>
+<!-- Form End -->
+<!-- Footer Signup Prompt -->
+<div class="mt-7 text-center text-xs sm:text-sm text-purple-200/70">
+<span>Don't have an account? </span>
+<a class="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors hover:underline underline-offset-2" href="#">
+              Sign up
+            </a>
+</div>
+</div>
+</section>
+<!-- END: RightLoginSection -->
+</div>
+</main>
+<!-- END: MainContentContainer -->
+<!-- Interactivity for Password Visibility Toggle -->
+<script data-purpose="interactive-helpers">
+    const toggleBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password-input');
+
+    if (toggleBtn && passwordInput) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        toggleBtn.classList.toggle('text-purple-200', isPassword);
+        toggleBtn.classList.toggle('text-purple-300/60', !isPassword);
+      });
+    }
+  </script>
+</body></html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config" id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout"><div class="flex flex-col w-full h-full overflow-hidden">
+<div class="flex-1 flex overflow-hidden w-full">
+<!-- LEFT COLUMN: Navigation & Contacts Sidebar -->
+<aside class="w-80 shrink-0 hidden lg:flex flex-col bg-surface-container-low/70 backdrop-blur-2xl">
+<!-- Sidebar Header -->
+<div class="p-space-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-surface-container-lowest text-body-lg">group</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Directory</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Global Avni Network</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-secondary text-label-sm font-label-sm">4.2k Active</span>
+</div>
+<!-- Navigation Tabs -->
+<div class="px-space-md mb-space-md flex flex-col gap-1">
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-bright/20 hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-body-lg">chat_bubble</span>
+<span class="font-label-md text-label-md flex-1">All Chats</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm font-label-sm">12</span>
+</a>
+<!-- Active Tab: Contacts -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT bg-primary/15 text-primary shadow-glow transition-all" href="#">
+<span class="material-symbols-outlined text-body-lg" style="font-variation-settings: 'FILL' 1;">contacts</span>
+<span class="font-label-md text-label-md font-semibold flex-1">Contacts</span>
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-bright/20 hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-body-lg">explore</span>
+<span class="font-label-md text-label-md flex-1">Discover Channels</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-bright/20 hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-body-lg">qr_code_scanner</span>
+<span class="font-label-md text-label-md flex-1">Avni ID Vault</span>
+</a>
+</div>
+<!-- Quick Directory List -->
+<div class="px-space-lg pt-space-sm pb-space-xs flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Recent Queries</span>
+<button class="text-label-sm font-label-sm text-primary hover:underline" type="button">Clear</button>
+</div>
+<div class="flex-1 overflow-y-auto px-space-sm space-y-1">
+<div class="p-space-sm rounded-DEFAULT flex items-center gap-space-md hover:bg-surface-container-highest/40 cursor-pointer transition-all">
+<div class="relative w-10 h-10 shrink-0">
+<img class="w-full h-full rounded-full object-cover shadow-sm" data-alt="Close up cinematic portrait of a young Indian woman programmer with neon blue lighting in a darkened studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ2UYa0D4URe6YSV9Jdq-pbZNi90LiX5FkaO0HoX5Q05AJ87_DJs5u_3aagqj0vtrl5airlVqCLASypWIl7h76DiOwCd_ohDouZeaQTzzhMYYZak2l9x3hzk0wbCBdDNJksesUPcyLQKN64Ec21Oo_Zan4sJjSsXSluD_DAGxBdmKFImezAGKnHynK1Yi5gw2Ovc5Y16cgTQLEmwXOSUVecNIzsnUyoz4tiO3EtnxFLyfJy8ZFV2Jn1A"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="font-label-md text-label-md text-on-surface truncate">Priya Sharma</p>
+<span class="font-label-sm text-label-sm text-outline">2m</span>
+</div>
+<p class="font-body-sm text-body-sm text-primary truncate">@priya_s</p>
+</div>
+</div>
+<div class="p-space-sm rounded-DEFAULT flex items-center gap-space-md hover:bg-surface-container-highest/40 cursor-pointer transition-all">
+<div class="relative w-10 h-10 shrink-0">
+<img class="w-full h-full rounded-full object-cover shadow-sm" data-alt="Portrait of an Indian creative director smiling against a gradient purple twilight backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYY9dJYopyYUKFwcdoCDvUF00syY2LB8vo8Q9d0Rl9pztvS6qH8IDOuGSTC_-0sUhd29C2i4hz7BWPUtgabJbeHvSe5Wl4Gtfa8YIRF239OV-NbuiBV3RflBFh1udjV_CCUEoQz9ADvOuNAeXeEnjISd_1_emueok-jUFoHbu7dhXkzxdhnv_g3Ofe2x3NbEFWnRC9qVo5cqF55nNnXwC8MP4vHJCpdSJxeCImXkiA3pHk1fStwBMHFg"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-slate-500 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="font-label-md text-label-md text-on-surface truncate">Rohan Varma</p>
+<span class="font-label-sm text-label-sm text-outline">1h</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">@rohan_official</p>
+</div>
+</div>
+<div class="p-space-sm rounded-DEFAULT flex items-center gap-space-md hover:bg-surface-container-highest/40 cursor-pointer transition-all">
+<div class="relative w-10 h-10 shrink-0">
+<img class="w-full h-full rounded-full object-cover shadow-sm" data-alt="Young man with modern glasses and casual hoodie illuminated by magenta ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1ILRdmVHp6ahboysWyoVARHgxCOA-K7adUA5dHNltjGYgPmtbAjuqhLhgMRqcP7pKLrCZz6-A-pD1SCupKPPU3ZQKxdaOtpIoHQnwF1N2HVK51wbP44js0QDNVwqD0U56woUsgndxQ0hflFijaLPDWNTYYQoIpzr7RZCGlo7z3ek6eipKtVR84dJXl4GEXhoxE7qKcfWGFZkwULyDaQOJz5UImZ8bIkS6jnqaA6vmy5_ShW7QCTIQcA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<p class="font-label-md text-label-md text-on-surface truncate">Aakash Mehra</p>
+<span class="font-label-sm text-label-sm text-outline">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">@aakash_99</p>
+</div>
+</div>
+</div>
+<!-- Network Mini Status -->
+<div class="m-space-md p-space-md rounded-DEFAULT bg-surface-container-high/60 backdrop-blur-xl flex items-center gap-space-md shadow-md">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-body-md">shield</span>
+</div>
+<div class="min-w-0 flex-1">
+<p class="font-label-sm text-label-sm text-on-surface truncate font-semibold">Decentralized IDs</p>
+<p class="font-label-sm text-label-sm text-outline truncate">Zero-Knowledge lookup</p>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN: Search Experience & Primary Match -->
+<section class="flex-1 flex flex-col overflow-y-auto bg-surface/40 backdrop-blur-3xl p-4 md:p-6 lg:p-8 space-y-6">
+<!-- Top Title & Search Section -->
+<div class="relative rounded-lg bg-surface-container-low/60 backdrop-blur-xl p-6 md:p-8 overflow-hidden shadow-xl">
+<!-- Ambient Background Glow -->
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-primary/20 via-secondary/15 to-transparent blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-tertiary-container/10 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-bright/50 text-primary font-label-sm text-label-sm mb-3 shadow-inner">
+<span class="material-symbols-outlined text-label-md">alternate_email</span>
+<span>Instant Peer Identity Lookup</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-2">
+            Find Anyone by Unique <span class="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">Avni ID</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+            Connect instantly with global peers across decentralized nodes using their immutable handle tag.
+          </p>
+<!-- Interactive Search Bar Component -->
+<form class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full" onsubmit="event.preventDefault();">
+<div class="relative flex-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center px-4 py-2 shadow-inner focus-within:ring-2 focus-within:ring-primary/60 transition-all">
+<span class="font-headline-sm text-headline-sm text-primary font-bold select-none pr-1">@</span>
+<input class="w-full bg-transparent border-0 text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:ring-0 p-0" id="search-input" placeholder="e.g. rohan_official, priya_s, aakash_99" type="text" value="aarav_cloud"/>
+<button class="text-outline hover:text-on-surface p-1 rounded-full transition-colors" title="Scan QR instead" type="button">
+<span class="material-symbols-outlined text-body-lg">qr_code</span>
+</button>
+</div>
+<button class="px-6 py-3 rounded-full bg-gradient-to-r from-primary-container via-secondary-container to-secondary text-on-primary font-label-lg text-label-lg shadow-btn-glow hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2 shrink-0" type="submit">
+<span class="material-symbols-outlined text-body-lg">search</span>
+<span>Search User</span>
+</button>
+</form>
+<!-- Suggested quick tags -->
+<div class="flex items-center gap-2 mt-4 flex-wrap">
+<span class="font-label-sm text-label-sm text-outline">Trending tags:</span>
+<button class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" type="button">#crypto</button>
+<button class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" type="button">#cloud-architects</button>
+<button class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" type="button">#delhi-tech</button>
+</div>
+</div>
+</div>
+<!-- Live Search Results Header -->
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-glow"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Search Match Result</h2>
+<span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm">1 Match Found</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-label-md text-emerald-400">bolt</span>
+<span>Response latency 14ms</span>
+</div>
+</div>
+<!-- MAIN FEATURED RESULT CARD -->
+<div class="relative rounded-lg bg-surface-container-low/80 backdrop-blur-2xl p-6 md:p-8 overflow-hidden shadow-2xl">
+<!-- Neon highlight gradient line -->
+<div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<!-- Big Avatar with Glowing Ring -->
+<div class="relative shrink-0">
+<div class="p-1 rounded-full bg-gradient-to-tr from-primary via-secondary to-tertiary shadow-glow">
+<div class="p-0.5 bg-surface rounded-full">
+<img class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover" data-alt="Hyper-realistic portrait of Aarav Singhania, an Indian tech innovator in his late twenties with sleek styled hair and intelligent expression in neon tinted studio light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnJpCA-SgjAp39HfzkWxQjno_UV6JrDHkG9BD9yLGseNf2wC_nzdkMFw49NVfYh6fwXD_EI2YWH53e114Gyjf8TLJ3kLK20yaC0_ZTNZ60ex-Ui6PiGDLTNNFzoLiaVdXPGuIs_UOexc_1uL1gIPvG6yrhtXazLrKt3tQH44x3yBeGsZCa0iGCH6tHhjeITmk8LkmYq9lmx_DJyVLsIJ0WS4WnbV7z-FG6FUW6m0nInCDbrUrzy9p0KQ"/>
+</div>
+</div>
+<!-- Pulsing Active Now Indicator -->
+<div class="absolute bottom-1 right-1 flex items-center justify-center p-1 rounded-full bg-surface shadow-md">
+<span class="relative flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
+</span>
+</div>
+</div>
+<!-- Profile Details -->
+<div class="flex-1 min-w-0 space-y-2">
+<div class="flex flex-wrap items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Aarav Singhania</h3>
+<!-- Verified Badge -->
+<span class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-label-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+                Verified Member
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-emerald-400 font-label-sm text-label-sm font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Active Now
+              </span>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary font-semibold tracking-wide">@aarav_cloud</p>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+              Cloud Architect &amp; Tech Enthusiast 🚀 | Avni Chat Beta tester. Building resilient distributed systems and exploring celestial edge computing.
+            </p>
+<!-- Mutual Friends Social Proof -->
+<div class="flex items-center gap-3 pt-2">
+<div class="flex -space-x-2 overflow-hidden">
+<img class="inline-block h-7 w-7 rounded-full ring-2 ring-surface shadow-sm object-cover" data-alt="Close up face of Rohan, male friend avatar with warm smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBynz0wjkMLnwrJqhpZPaovDOA6dznzhcDXQVWdtstU-rJ7sfLBvFNucJnTQXO7IdxzO73PApSV-aL7mHU_rbfTjelh3KW72Td1OxQ7R6DV1Vmvvob2kadv8De5doqtteijZ1yim-nmcYKs0bP2gQhrFS4SCEXEJ631eCWqS4ErEa_h1wceBrkOjjjqNhPF-H3DjT0wGwcFoThcr2J-9mQ9to4f3uZ_YxCvCop6LuexZLYeHD1qUX-APA"/>
+<img class="inline-block h-7 w-7 rounded-full ring-2 ring-surface shadow-sm object-cover" data-alt="Close up face of Neha, female friend avatar with headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNw4G-_raI7NbVUEln3ODKpY6SITWtbqJujxjb0F8Vy5XgioVsUWVMMCNv7T5m-GImCopsmIUORpm4LWTemEccrN90G34l_r7qOGaplGHKufFEduHQSaM4E3R2sSIM1ewInDynGjSp7AvSncP0UUIiliTZ2lrARwVCteuSNjr3moHQiz1QyXT4-_NexnU06kOt89HzoUXutUILYX5adx5lSoMG7-LFl5SW0Du6qx3SSV03xoh-cUDs5Q"/>
+<img class="inline-block h-7 w-7 rounded-full ring-2 ring-surface shadow-sm object-cover" data-alt="Close up face of Priya, professional tech girl avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVSEzeV_QjIaqx4ijgNydKXlvYFdiFyJR21nAdau2XPsd0CCzr1B1qIhdWxnDy3822Pmpm05PQ-_qD_eR-OrolfEwEPQfirzE1h7uvHs53K1ZIKaiLpFuTdq-YqoQXdTXY7EBxMysT3PpvjA9qvU2E4aDEXe8c11yPq4LbpQCYZi5geL7RR0sJMI4TNj-rm5GZTsT3tbiHHWQKhdmqTrrFu-dLr49fMvELPY-fF8V5E7Se_-dMd9DYzA"/>
+<img class="inline-block h-7 w-7 rounded-full ring-2 ring-surface shadow-sm object-cover" data-alt="Close up face of Imran, bearded man with friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0M1TRBBBX9zCDMBdtol_SWOhidGoPJgAgZEZ-kuBc65XfAfIjr9PIhdk_NDeIZ50jjRjLpLLAc_exrZ-dsb33xLeY4TK4fRg33oUB9kmLLW3ticiElSUXZVbcb_pOgLtYcBe2kBG8Qa-egy-jbGAAJWgHOdpFOg9YyXYxcdsOFSpxLhH8AolxX6Xex9laf3SFNLqW9yIjJitC1ulQFb8Bv-VQv4z9So6HlcKqqZjpCgjZHIBZa0Cfzw"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<span class="font-semibold text-on-surface">4 mutual friends</span>: Rohan, Neha, Priya, and Imran
+              </p>
+</div>
+</div>
+</div>
+<!-- Action Buttons Bar -->
+<div class="mt-6 pt-6 border-t-0 bg-surface-container/40 -mx-6 -mb-6 md:-mx-8 md:-mb-8 p-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-body-md">lock</span>
+            End-to-End Encrypted ID Match
+          </div>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial px-5 py-2.5 rounded-full bg-surface-bright/40 hover:bg-surface-bright/60 text-on-surface font-label-md text-label-md transition-all flex items-center justify-center gap-2 shadow-sm" id="send-dm-btn" type="button">
+<span class="material-symbols-outlined text-body-md">forum</span>
+<span>Send Direct Message</span>
+</button>
+<button class="flex-1 sm:flex-initial px-6 py-2.5 rounded-full bg-gradient-to-r from-primary-container via-secondary-container to-secondary text-on-primary font-label-md text-label-md shadow-glow hover:opacity-95 transition-all flex items-center justify-center gap-2" id="add-friend-primary-btn" type="button">
+<span class="text-base">🦋</span>
+<span>Add Friend &amp; Connect</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SUGGESTED USERS / TRENDING AVNI IDs GRID -->
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Suggested Profiles &amp; Trending IDs</h3>
+<p class="font-label-sm text-label-sm text-outline">People you might know within your ecosystem</p>
+</div>
+<button class="text-primary hover:text-secondary font-label-md text-label-md flex items-center gap-1 transition-colors" type="button">
+<span>Explore All</span>
+<span class="material-symbols-outlined text-body-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1 -->
+<div class="rounded-DEFAULT bg-surface-container-low/70 backdrop-blur-xl p-4 flex flex-col justify-between hover:bg-surface-container/80 transition-all shadow-md group">
+<div class="flex items-start justify-between">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="Portrait of an Indian graphic designer girl with colorful artistic glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAMtGmI-P4yLcqMApzZkwrEL-PbfCPwAXERKoWkmoifSKLjkQzpQ4tjlrKCO4uJ9Iluh4xyjf7fSIBSbaklHMsqmvxhpL0YDG0APHcmY2_0gtpJssqGKeBOFxcnX2l8luw1CFysZiXmTqrJ6Cn-3X7gESfxiYE8E4P7IzYi3Ox0fWyB4hK5HRvEeih6xciQH86otHTKMJMwmiLxklsxJxCQ7Ax2nP0E6lDNzl6RAPbRBi9DSiiJn6Cig"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-tertiary">Design</span>
+</div>
+<div class="mt-3">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Ananya Deshmukh</h4>
+<p class="font-body-sm text-body-sm text-primary truncate">@ananya_ui</p>
+<p class="font-label-sm text-label-sm text-outline mt-1 truncate">3 mutual connections</p>
+</div>
+<button class="mt-3 w-full py-2 px-3 rounded-full bg-surface-bright/30 hover:bg-primary/20 hover:text-primary text-on-surface font-label-sm text-label-sm font-semibold transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-body-sm">person_add</span>
+<span>Add Friend</span>
+</button>
+</div>
+<!-- Card 2 -->
+<div class="rounded-DEFAULT bg-surface-container-low/70 backdrop-blur-xl p-4 flex flex-col justify-between hover:bg-surface-container/80 transition-all shadow-md group">
+<div class="flex items-start justify-between">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="Portrait of young man software developer with neon backlighting in dark room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt7qOah04QNSIMpjWA-NxmocJRB4aXjUhNg90AmDmRtV5_V5uj958w7hhlmLHSad9i7HLbXxKA4oTi-O2J7hgErcA5llIBMyB9U-WieL5Oq3hFSs0CPM23wK9fd90uRKtTw12bED_aZpfMz75-YwU-PbSBK5QcdF8AxgthMfz6VCn2LSKfdQvSS5sm6SPHNRm6EAuOsJ_o-XDJby9uj30fbtGlL1LTJWPimPuabVASPS-9pxp_EmmIpQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary">Founder</span>
+</div>
+<div class="mt-3">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Kabir Mehta</h4>
+<p class="font-body-sm text-body-sm text-primary truncate">@kabir_sol</p>
+<p class="font-label-sm text-label-sm text-outline mt-1 truncate">8 mutual connections</p>
+</div>
+<button class="mt-3 w-full py-2 px-3 rounded-full bg-surface-bright/30 hover:bg-primary/20 hover:text-primary text-on-surface font-label-sm text-label-sm font-semibold transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-body-sm">person_add</span>
+<span>Add Friend</span>
+</button>
+</div>
+<!-- Card 3 -->
+<div class="rounded-DEFAULT bg-surface-container-low/70 backdrop-blur-xl p-4 flex flex-col justify-between hover:bg-surface-container/80 transition-all shadow-md group">
+<div class="flex items-start justify-between">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="Indian woman AI researcher with sleek dark hair and subtle smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8uqSqZUvJ1eK5Gt_i51WsK_z6oGw_C6Audwn9LCzkRE66wUKXRrbqArs96sURosAfTnEZLgrstzaAabHF7kLMHVrvuznY0LBQFaEABx-B7gpodelftwozgTD26CQh_PzlIPat1G9O0kSsjnH5LlYblRrs-v4c8wh6WBMvPbEZqDHTHritaRgfR63rGpCXyjvrywpUND2eOAnHnGywMaP9FTHkdc2VAMcojXuXMODxjSURv2U07JrjDA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-slate-500 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-primary">AI Lab</span>
+</div>
+<div class="mt-3">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Dr. Shreya Sen</h4>
+<p class="font-body-sm text-body-sm text-primary truncate">@shreya_nlp</p>
+<p class="font-label-sm text-label-sm text-outline mt-1 truncate">1 mutual connection</p>
+</div>
+<button class="mt-3 w-full py-2 px-3 rounded-full bg-surface-bright/30 hover:bg-primary/20 hover:text-primary text-on-surface font-label-sm text-label-sm font-semibold transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-body-sm">person_add</span>
+<span>Add Friend</span>
+</button>
+</div>
+<!-- Card 4 -->
+<div class="rounded-DEFAULT bg-surface-container-low/70 backdrop-blur-xl p-4 flex flex-col justify-between hover:bg-surface-container/80 transition-all shadow-md group">
+<div class="flex items-start justify-between">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="Portrait of an Indian sound engineer with ambient violet studio glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0VnlW4iFUgd_znLXYowEWoFakjf3La6ZzErRcTnAm6hcKyko_xV7gHIrcFhdltHTl1m7FU1HPnntGf_TBskUzhpoaHsn314_V50lSUUThemNS1PpWK_ffTeZtr3THOtldTST5vm2xgI3CQyD0bC115RUBlfAu4HO1e7jMUZHTWzNaXjqxsrqVLzf8Y0YJTuHSeHVbszuTbbxdioeYJ15_9cUbEbJTvpeiYrpWkGRgSatfY09ldt5wDw"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-surface-container-low"></span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-tertiary">Audio</span>
+</div>
+<div class="mt-3">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Devansh Paul</h4>
+<p class="font-body-sm text-body-sm text-primary truncate">@dev_beats</p>
+<p class="font-label-sm text-label-sm text-outline mt-1 truncate">5 mutual connections</p>
+</div>
+<button class="mt-3 w-full py-2 px-3 rounded-full bg-surface-bright/30 hover:bg-primary/20 hover:text-primary text-on-surface font-label-sm text-label-sm font-semibold transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-body-sm">person_add</span>
+<span>Add Friend</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Interactive UI Empty-State Preview & Personal Link Utility -->
+<aside class="w-88 shrink-0 hidden xl:flex flex-col bg-surface-container-low/60 backdrop-blur-2xl p-6 overflow-y-auto space-y-6">
+<!-- Section Header -->
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">State Showcase</h3>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-2 py-0.5 rounded-full">Interactive Tip</span>
+</div>
+<!-- State Demonstration Card: "No User Found" empty-state preview -->
+<div class="rounded-lg bg-surface-container/50 backdrop-blur-md p-6 relative overflow-hidden shadow-xl">
+<div class="absolute -right-10 -bottom-10 w-36 h-36 rounded-full bg-error/10 blur-2xl pointer-events-none"></div>
+<div class="flex flex-col items-center text-center">
+<!-- Illustration / Icon -->
+<div class="w-14 h-14 rounded-full bg-error-container/40 text-error flex items-center justify-center mb-3 shadow-inner">
+<span class="material-symbols-outlined text-headline-md">person_search</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-error-container/60 text-error font-medium mb-1">Previewing Edge Case</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">No user found with</h4>
+<p class="font-body-md text-body-md text-error font-mono mt-0.5">@unknown_id</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-3">
+            Double-check spelling, dashes, or ensure your colleague has registered their ID on the Avni Relay.
+          </p>
+<!-- Action Tips -->
+<div class="w-full mt-4 space-y-2 text-left">
+<div class="p-2.5 rounded-DEFAULT bg-surface-container-high/40 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-body-md mt-0.5">help_outline</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                Avni IDs are case-insensitive and can include alphanumeric characters and underscores.
+              </p>
+</div>
+<div class="p-2.5 rounded-DEFAULT bg-surface-container-high/40 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-body-md mt-0.5">share</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                Invite them directly by sharing your customized one-tap Avni Invite Link.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Personal Avni Share Card -->
+<div class="rounded-lg bg-gradient-to-br from-surface-container/70 via-surface-container-high/50 to-surface-container/70 backdrop-blur-xl p-5 shadow-lg space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-0.5 shadow-glow">
+<img alt="Avni avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+</div>
+<div>
+<h5 class="font-label-lg text-label-lg text-on-surface font-semibold">Your Avni ID</h5>
+<p class="font-label-md text-label-md text-primary font-bold">@avni_official</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest/90 rounded-DEFAULT p-3 flex items-center justify-between shadow-inner">
+<span class="font-body-sm text-body-sm text-outline font-mono truncate mr-2">avni.chat/id/@avni_official</span>
+<button class="px-2.5 py-1 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-on-primary transition-all font-label-sm text-label-sm font-semibold shrink-0" id="copy-link-btn" type="button">
+            Copy
+          </button>
+</div>
+<!-- Inline QR Visual Container -->
+<div class="flex items-center gap-3 bg-surface-container-high/30 p-3 rounded-DEFAULT">
+<div class="w-12 h-12 bg-white rounded-lg p-1 shrink-0 flex items-center justify-center shadow-md">
+<!-- Simulated QR SVG -->
+<svg class="w-full h-full text-surface-container-lowest" fill="currentColor" viewbox="0 0 24 24">
+<path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm8-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v4h-2v-4zm6-2h2v4h-2v-4zm-2 2h2v2h-2v-2zm4 2h2v2h-2v-2z"></path>
+</svg>
+</div>
+<div class="min-w-0 flex-1">
+<p class="font-label-md text-label-md text-on-surface font-medium truncate">Share Personal QR</p>
+<p class="font-label-sm text-label-sm text-outline">Let others scan to add you directly</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Simple interactive feedback behaviors
+  document.addEventListener('DOMContentLoaded', () => {
+    const addFriendBtn = document.getElementById('add-friend-primary-btn');
+    if (addFriendBtn) {
+      addFriendBtn.addEventListener('click', () => {
+        addFriendBtn.innerHTML = '<span>Friend Request Sent! ✓</span>';
+        addFriendBtn.classList.replace('from-primary-container', 'from-emerald-600');
+        addFriendBtn.classList.replace('to-secondary', 'to-emerald-500');
+        setTimeout(() => {
+          addFriendBtn.innerHTML = '<span class="text-base">🦋</span><span>Add Friend &amp; Connect</span>';
+          addFriendBtn.classList.replace('from-emerald-600', 'from-primary-container');
+          addFriendBtn.classList.replace('to-emerald-500', 'to-secondary');
+        }, 2200);
+      });
+    }
+
+    const copyBtn = document.getElementById('copy-link-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const prev = copyBtn.innerText;
+        copyBtn.innerText = 'Copied!';
+        setTimeout(() => {
+          copyBtn.innerText = prev;
+        }, 1500);
+      });
+    }
+
+    const dmBtn = document.getElementById('send-dm-btn');
+    if (dmBtn) {
+      dmBtn.addEventListener('click', () => {
+        dmBtn.classList.add('bg-primary/30', 'text-primary');
+        setTimeout(() => {
+          dmBtn.classList.remove('bg-primary/30', 'text-primary');
+        }, 600);
+      });
+    }
+  });
+</script></main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>

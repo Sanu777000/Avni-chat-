@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config" id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout"><div class="flex flex-col w-full">
+<div class="flex flex-1 h-full w-full overflow-hidden">
+<!-- Left Navigation Rail -->
+<aside class="w-64 bg-surface-container-lowest flex flex-col justify-between p-margin shrink-0 hidden lg:flex">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm px-space-sm py-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+          Settings Menu
+        </div>
+<nav class="flex flex-col gap-space-xs">
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+<span>Account &amp; Profile</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg">shield</span>
+<span>Privacy &amp; Security</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg">chat</span>
+<span>Chat Customization</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg">cloud</span>
+<span>Storage &amp; Sync</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-DEFAULT bg-primary/10 text-primary font-label-lg text-label-lg shadow-sm" href="#">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">help</span>
+<span>Help &amp; Support</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</a>
+</nav>
+</div>
+<!-- Quick System Health Widget -->
+<div class="bg-surface-container p-space-md rounded-DEFAULT flex flex-col gap-space-xs shadow-md">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span>Avni Cloud Sync</span>
+<span class="flex items-center gap-1 text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+            Operational
+          </span>
+</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm">All night-mode relays operational at 99.99% uptime.</p>
+</div>
+</aside>
+<!-- Main Scrollable Content Area -->
+<section class="flex-1 overflow-y-auto bg-surface-container-low p-margin sm:p-margin-md md:p-gutter-lg flex flex-col gap-gutter-md">
+<!-- Top Breadcrumb / Title Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<span class="text-secondary font-label-sm text-label-sm uppercase tracking-widest">Settings / Knowledge Base</span>
+<h2 class="text-on-surface font-headline-lg text-headline-lg flex items-center gap-space-sm">
+            Help Center &amp; Community
+            <span class="text-secondary text-sm">✦</span>
+</h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-sm bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md px-space-md py-space-xs rounded-full shadow-sm transition-all" id="open-livechat-header">
+<span class="material-symbols-outlined text-base">forum</span>
+<span>Live Chat</span>
+</button>
+</div>
+</div>
+<!-- Hero Banner / Knowledge Base Search -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container p-margin-md md:p-gutter-lg shadow-xl flex flex-col gap-space-lg">
+<div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col max-w-2xl gap-space-xs">
+<span class="text-secondary font-label-md text-label-md flex items-center gap-1">
+<span>🦋</span> Nocturne Guidance Sanctuary
+          </span>
+<h3 class="text-on-surface font-headline-md text-headline-md">
+            How can our stargazers assist your journey tonight?
+          </h3>
+<p class="text-on-surface-variant font-body-md text-body-md">
+            Instant troubleshooting, celestial privacy protocols, and cross-device sync guidelines.
+          </p>
+</div>
+<!-- Interactive Search Bar -->
+<div class="relative z-10 flex flex-col gap-space-sm max-w-3xl">
+<div class="relative flex items-center bg-surface-container-lowest rounded-full px-space-md py-space-sm shadow-md">
+<span class="material-symbols-outlined text-secondary mr-space-sm text-xl">auto_awesome</span>
+<input class="w-full bg-transparent text-on-surface font-body-md text-body-md focus:outline-none placeholder-outline" id="faq-search-input" placeholder="Search FAQs, guides, and troubleshooting (e.g. encryption, sync)..." type="text"/>
+<button class="hidden text-on-surface-variant hover:text-on-surface transition-colors" id="search-clear-btn">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Quick Filters Pills -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+<span class="text-on-surface-variant font-label-sm text-label-sm mr-space-xs">Suggested:</span>
+<button class="faq-tag-btn px-space-md py-0.5 rounded-full bg-surface-container-high hover:bg-primary/20 text-on-surface hover:text-primary font-label-sm text-label-sm transition-all shadow-sm" data-tag="Avni ID">Avni ID</button>
+<button class="faq-tag-btn px-space-md py-0.5 rounded-full bg-surface-container-high hover:bg-primary/20 text-on-surface hover:text-primary font-label-sm text-label-sm transition-all shadow-sm" data-tag="End-to-end encryption">End-to-end encryption</button>
+<button class="faq-tag-btn px-space-md py-0.5 rounded-full bg-surface-container-high hover:bg-primary/20 text-on-surface hover:text-primary font-label-sm text-label-sm transition-all shadow-sm" data-tag="Story privacy">Story privacy</button>
+<button class="faq-tag-btn px-space-md py-0.5 rounded-full bg-surface-container-high hover:bg-primary/20 text-on-surface hover:text-primary font-label-sm text-label-sm transition-all shadow-sm" data-tag="Desktop sync">Desktop sync</button>
+</div>
+</div>
+</div>
+<!-- FAQ Section Accordion Card -->
+<div class="bg-surface-container rounded-lg p-margin-md md:p-gutter-lg flex flex-col gap-space-lg shadow-lg">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-on-surface font-headline-sm text-headline-sm flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">quiz</span>
+              Top Frequently Asked Questions
+            </h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Click any question below to expand technical explanations.</p>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-space-sm py-0.5 rounded-full text-on-surface-variant" id="faq-match-count">
+            4 questions
+          </span>
+</div>
+<!-- Accordion List -->
+<div class="flex flex-col gap-space-sm" id="faq-container">
+<!-- Accordion Item 1 -->
+<div class="faq-card bg-surface-container-low hover:bg-surface-container-high/50 rounded-DEFAULT transition-all overflow-hidden" data-keywords="avni id username change handle profile identity">
+<button aria-expanded="false" class="faq-trigger w-full flex items-center justify-between p-space-md text-left focus:outline-none">
+<span class="text-on-surface font-label-lg text-label-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-base">alternate_email</span>
+                How does Avni ID work and can I change it?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-200 faq-icon text-xl">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-md pb-space-md text-on-surface-variant font-body-md text-body-md">
+<p class="leading-relaxed">
+                Your unique <strong class="text-primary">Avni ID</strong> is your decentralized identifier throughout the constellation network. You can freely personalize your handle once every 14 days under <em class="text-secondary font-label-md">Settings &gt; Profile</em>. Changing your ID maintains your entire message continuity, contact directory, and verification badge without interruption.
+              </p>
+</div>
+</div>
+<!-- Accordion Item 2 -->
+<div class="faq-card bg-surface-container-low hover:bg-surface-container-high/50 rounded-DEFAULT transition-all overflow-hidden" data-keywords="encryption security keys private messages secret media end-to-end">
+<button aria-expanded="false" class="faq-trigger w-full flex items-center justify-between p-space-md text-left focus:outline-none">
+<span class="text-on-surface font-label-lg text-label-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-base">lock</span>
+                Are my chats and media end-to-end encrypted?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-200 faq-icon text-xl">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-md pb-space-md text-on-surface-variant font-body-md text-body-md">
+<p class="leading-relaxed">
+                Yes, absolute zero-knowledge security is active by default. Every peer-to-peer exchange, group transmission, voice memo, and high-definition photo is encrypted on your local device before transmission. Cryptographic verification keys never traverse our servers in plaintext.
+              </p>
+</div>
+</div>
+<!-- Accordion Item 3 -->
+<div class="faq-card bg-surface-container-low hover:bg-surface-container-high/50 rounded-DEFAULT transition-all overflow-hidden" data-keywords="transfer chats mobile desktop mac windows sync qr code devices">
+<button aria-expanded="false" class="faq-trigger w-full flex items-center justify-between p-space-md text-left focus:outline-none">
+<span class="text-on-surface font-label-lg text-label-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-base">devices</span>
+                How do I transfer chats between Desktop and Mobile?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-200 faq-icon text-xl">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-md pb-space-md text-on-surface-variant font-body-md text-body-md">
+<p class="leading-relaxed">
+                Avni Chat leverages peer Wi-Fi pairing and decentralized key exchange. Simply scan the ephemeral holographic QR code generated under <strong class="text-primary">Linked Devices</strong> on your phone. Message history streams across your local network in seconds with peer-to-peer verification.
+              </p>
+</div>
+</div>
+<!-- Accordion Item 4 -->
+<div class="faq-card bg-surface-container-low hover:bg-surface-container-high/50 rounded-DEFAULT transition-all overflow-hidden" data-keywords="disappearing messages timer ephemeral self destruct groups privacy">
+<button aria-expanded="false" class="faq-trigger w-full flex items-center justify-between p-space-md text-left focus:outline-none">
+<span class="text-on-surface font-label-lg text-label-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-base">timer</span>
+                How do disappearing messages work in groups?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-200 faq-icon text-xl">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-md pb-space-md text-on-surface-variant font-body-md text-body-md">
+<p class="leading-relaxed">
+                When enabled by group administrators, timers range from 10 seconds up to 7 days. Once the expiration threshold elapses for all recipients, message envelopes are securely scrubbed from all participating client databases simultaneously.
+              </p>
+</div>
+</div>
+</div>
+<div class="hidden text-center py-space-xl" id="no-faq-match">
+<p class="text-on-surface font-headline-sm text-headline-sm">No topics found</p>
+<p class="text-on-surface-variant font-body-sm text-body-sm mt-1">Try searching another phrase or get in touch with our live concierge.</p>
+</div>
+</div>
+<!-- Support Grid: Report Issue & Live Concierge -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter-md">
+<!-- Interactive Technical Issue Form -->
+<div class="bg-surface-container rounded-lg p-margin-md md:p-gutter-lg flex flex-col justify-between gap-space-lg shadow-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-full bg-error-container/30 text-error flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-base">bug_report</span>
+</span>
+<h3 class="text-on-surface font-headline-sm text-headline-sm">Report a Technical Issue</h3>
+</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm">
+              Encountered a glitch or sync mismatch? Our engineering team reviews diagnostic telemetry promptly.
+            </p>
+</div>
+<form class="flex flex-col gap-space-md" id="tech-issue-form">
+<div class="flex flex-col gap-space-xs">
+<label class="text-on-surface font-label-md text-label-md" for="issue-category">Category</label>
+<select class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-DEFAULT p-space-sm focus:outline-none" id="issue-category">
+<option value="sync">Cloud Sync &amp; Backup Desync</option>
+<option value="audio-video">Voice &amp; Video Call Quality</option>
+<option value="notifications">Push Notification Delays</option>
+<option value="ui">Interface or Theme Rendering Glitch</option>
+<option value="other">Other Nocturne Feature</option>
+</select>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="text-on-surface font-label-md text-label-md" for="issue-desc">Description</label>
+<textarea class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-DEFAULT p-space-sm focus:outline-none placeholder-outline resize-none" id="issue-desc" placeholder="What happened? Tell us the steps to reproduce..." required="" rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<label class="flex items-center gap-space-sm cursor-pointer">
+<input checked="" class="rounded text-primary bg-surface-container-lowest focus:ring-0" type="checkbox"/>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Include anonymous logs</span>
+</label>
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary font-label-lg text-label-lg px-space-lg py-space-sm rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center gap-space-xs" id="submit-report-btn" type="submit">
+<span>Submit Bug Report</span>
+<span class="material-symbols-outlined text-base">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Avni Concierge & Community Card -->
+<div class="bg-surface-container rounded-lg p-margin-md md:p-gutter-lg flex flex-col justify-between gap-space-lg shadow-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-full bg-secondary-container/30 text-secondary flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-base">support_agent</span>
+</span>
+<h3 class="text-on-surface font-headline-sm text-headline-sm">Contact Avni Concierge</h3>
+</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm">
+              Direct access to our nocturnal team of product specialists and community guardians.
+            </p>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Live Chat Card Trigger -->
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+</div>
+<div>
+<h4 class="text-on-surface font-label-lg text-label-lg">24/7 Live Night Care</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Typical response time: ~2 minutes</p>
+</div>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-secondary font-label-md text-label-md px-space-md py-space-xs rounded-full transition-all" id="trigger-concierge-chat">
+                Start Chat
+              </button>
+</div>
+<!-- Email Direct Card -->
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h4 class="text-on-surface font-label-lg text-label-lg">Direct Inquiry</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm" id="email-address-text">support@avni.chat</p>
+</div>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md px-space-md py-space-xs rounded-full transition-all flex items-center gap-1" id="copy-email-btn">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span id="copy-btn-label">Copy</span>
+</button>
+</div>
+</div>
+<div class="p-space-sm bg-surface-container-lowest rounded-DEFAULT flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Global Stargazer Community</span>
+<a class="text-primary hover:underline flex items-center gap-0.5" href="#">
+<span>Join Discord</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+<!-- About Avni Chat Card -->
+<div class="bg-surface-container rounded-lg p-margin-md flex flex-col md:flex-row items-center justify-between gap-space-md shadow-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-2xl shadow-glow">
+            🦋
+          </div>
+<div>
+<h4 class="text-on-surface font-headline-sm text-headline-sm flex items-center gap-space-xs">
+              Avni Chat Desktop
+              <span class="bg-surface-container-highest px-space-xs py-0.5 rounded text-tertiary font-label-sm text-label-sm">v2.4.0 Nocturne Edition</span>
+</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">
+              Crafted with ❤️ for stargazers and night owls around the globe.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg text-on-surface-variant font-label-md text-label-md">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<span class="text-outline-variant">•</span>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<span class="text-outline-variant">•</span>
+<a class="hover:text-primary transition-colors" href="#">Security Audits</a>
+</div>
+</div>
+</section>
+</div>
+<!-- Toast Container for Interactive Feedback -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none bg-surface-container-highest text-on-surface px-space-lg py-space-sm rounded-full shadow-2xl flex items-center gap-space-sm font-label-md text-label-md" id="toast">
+<span class="material-symbols-outlined text-tertiary" id="toast-icon">check_circle</span>
+<span id="toast-message">Report submitted successfully!</span>
+</div>
+</div>
+<script>
+  // Accordion Logic
+  document.querySelectorAll('.faq-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const card = trigger.closest('.faq-card');
+      const content = card.querySelector('.faq-content');
+      const icon = trigger.querySelector('.faq-icon');
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+      // Toggle this item
+      if (isExpanded) {
+        content.classList.add('hidden');
+        trigger.setAttribute('aria-expanded', 'false');
+        icon.classList.remove('rotate-180');
+      } else {
+        content.classList.remove('hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+        icon.classList.add('rotate-180');
+      }
+    });
+  });
+
+  // Search Filter Logic
+  const searchInput = document.getElementById('faq-search-input');
+  const clearBtn = document.getElementById('search-clear-btn');
+  const faqCards = document.querySelectorAll('.faq-card');
+  const matchCount = document.getElementById('faq-match-count');
+  const noMatchMsg = document.getElementById('no-faq-match');
+
+  function filterFAQs(query) {
+    const term = query.toLowerCase().trim();
+    let visible = 0;
+
+    faqCards.forEach(card => {
+      const keywords = card.getAttribute('data-keywords') || '';
+      const text = card.innerText.toLowerCase();
+      if (!term || keywords.includes(term) || text.includes(term)) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (visible === 0) {
+      noMatchMsg.classList.remove('hidden');
+    } else {
+      noMatchMsg.classList.add('hidden');
+    }
+
+    matchCount.innerText = visible + ' question' + (visible === 1 ? '' : 's');
+    clearBtn.classList.toggle('hidden', term.length === 0);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      filterFAQs(e.target.value);
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      filterFAQs('');
+      searchInput.focus();
+    });
+  }
+
+  // Tag Quick Filters
+  document.querySelectorAll('.faq-tag-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.getAttribute('data-tag');
+      searchInput.value = tag;
+      filterFAQs(tag);
+    });
+  });
+
+  // Toast Functionality
+  function showToast(msg, icon = 'check_circle') {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+
+    toastMsg.innerText = msg;
+    toastIcon.innerText = icon;
+
+    toast.classList.remove('translate-y-16', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('translate-y-16', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3000);
+  }
+
+  // Copy Email Handler
+  const copyBtn = document.getElementById('copy-email-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('support@avni.chat');
+      document.getElementById('copy-btn-label').innerText = 'Copied!';
+      showToast('Support email copied to clipboard 📋');
+      setTimeout(() => {
+        document.getElementById('copy-btn-label').innerText = 'Copy';
+      }, 2000);
+    });
+  }
+
+  // Technical Form Submission
+  const techForm = document.getElementById('tech-issue-form');
+  if (techForm) {
+    techForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Bug report & diagnostic telemetry queued! 🦋');
+      techForm.reset();
+    });
+  }
+
+  // Concierge Chat Simulators
+  const conciergeTrigger = document.getElementById('trigger-concierge-chat');
+  const liveChatHeader = document.getElementById('open-livechat-header');
+
+  function openConcierge() {
+    showToast('Connecting with Avni Concierge in a moment...', 'support_agent');
+  }
+
+  if (conciergeTrigger) conciergeTrigger.addEventListener('click', openConcierge);
+  if (liveChatHeader) liveChatHeader.addEventListener('click', openConcierge);
+</script></main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>

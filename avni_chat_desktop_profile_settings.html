@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout">
+<!-- COLUMN 1: Navigation Sidebar -->
+<!-- BEGIN: NavigationSidebar -->
+<aside class="w-20 md:w-56 lg:w-64 flex flex-col justify-between py-5 px-3 bg-slate-950/30 select-none shrink-0" data-purpose="left-navigation">
+<nav aria-label="Main navigation" class="space-y-1.5">
+<!-- Chats Tab -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all group" href="#">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="hidden md:inline font-medium text-sm">Chats</span>
+</a>
+<!-- Groups Tab -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all group" href="#">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="hidden md:inline font-medium text-sm">Groups</span>
+</a>
+<!-- Contacts Tab -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all group" href="#">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="hidden md:inline font-medium text-sm">Contacts</span>
+</a>
+<!-- Status Tab -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-all group" href="#">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="hidden md:inline font-medium text-sm">Status</span>
+</a>
+<!-- Settings Tab (Active State - Purple Pill) -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl bg-purple-600 text-white font-semibold shadow-glow transition-all" href="#">
+<svg class="w-5 h-5 animate-[spin_10s_linear_infinite]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="hidden md:inline text-sm">Settings</span>
+</a>
+</nav>
+<!-- Brand Footer Tagline -->
+<div class="hidden md:block px-3 py-3 rounded-2xl bg-white/[0.02] border border-white/5 text-center">
+<p class="text-[11px] text-slate-400">Avni Chat Desktop</p>
+<p class="text-[10px] text-purple-400/80 font-mono mt-0.5">v2.4.0 • Encrypted</p>
+</div>
+</aside>
+<!-- END: NavigationSidebar -->
+<!-- COLUMN 2: Center Profile Panel -->
+<!-- BEGIN: CenterProfilePanel -->
+<section class="flex-1 flex flex-col overflow-y-auto px-4 sm:px-8 py-6 items-center justify-start relative" data-purpose="profile-center-panel">
+<!-- Header Title -->
+<div class="w-full max-w-md flex items-center justify-between mb-4">
+<h1 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            My Profile
+          </h1>
+</div>
+<!-- Profile Card Container -->
+<div class="w-full max-w-md flex flex-col items-center">
+<!-- Avatar with glowing ring and edit camera badge -->
+<div class="relative mb-3 mt-1" data-purpose="avatar-wrapper">
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] bg-gradient-to-tr from-purple-500 via-fuchsia-400 to-indigo-500 shadow-glow">
+<img alt="Avni Profile Portrait" class="w-full h-full rounded-full object-cover border-2 border-slate-900" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9cOxkp1EZ9QROI6oUFfyUPTujsVuxEcGG1SyJ64eJOOHagyLzDp56Au-bCxjzLdE8KBu-uj0tSWjXaqx9MAgV59sHDD0a5Mj8bu51BJEb9tS2GznKITzRSrUbGtP2F4MsvQqUGs48U4SXHgiBUQuBCwP68rzrmBZaJZDBL8SIciCRRq9DQQPAMrXncjwN3uVj6q92VbQY_a8nN_QMpf9CPFM8hN0IJZGX-W_VYOZDtNfCkxX5WhGwDw"/>
+</div>
+<!-- Camera Edit Badge Button -->
+<button aria-label="Change profile picture" class="absolute bottom-0 right-0 p-2 rounded-full bg-purple-600 hover:bg-purple-500 text-white shadow-lg border-2 border-slate-900 transition-transform hover:scale-110 active:scale-95" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<!-- Display Name and Online status -->
+<div class="text-center mb-6">
+<h2 class="text-lg font-semibold tracking-wide text-white flex items-center justify-center gap-1.5">
+<span>🦋</span>
+<span class="bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent font-bold">Avni</span>
+<span>🦋</span>
+</h2>
+<div class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-medium mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span>Online</span>
+</div>
+</div>
+<!-- Profile Form Input Fields -->
+<form class="w-full space-y-4" data-purpose="profile-form" onsubmit="event.preventDefault();">
+<!-- Username Input -->
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-400" for="username-input">Username</label>
+<div class="relative glass-input rounded-xl px-3.5 py-2.5 flex items-center justify-between group focus-within:ring-1 focus-within:ring-purple-500 transition">
+<input class="bg-transparent border-none p-0 text-sm font-medium text-slate-200 w-full focus:ring-0 focus:outline-none" id="username-input" type="text" value="avni_official"/>
+<button aria-label="Edit username" class="text-slate-500 hover:text-purple-400 transition-colors pl-2" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- About Input -->
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-400" for="about-input">About</label>
+<div class="relative glass-input rounded-xl px-3.5 py-2.5 flex items-center justify-between group focus-within:ring-1 focus-within:ring-purple-500 transition">
+<input class="bg-transparent border-none p-0 text-sm font-medium text-slate-200 w-full focus:ring-0 focus:outline-none" id="about-input" type="text" value="Keep smiling 😊"/>
+<button aria-label="Edit status message" class="text-slate-500 hover:text-purple-400 transition-colors pl-2" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Phone Input -->
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-400" for="phone-input">Phone</label>
+<div class="relative glass-input rounded-xl px-3.5 py-2.5 flex items-center justify-between group focus-within:ring-1 focus-within:ring-purple-500 transition opacity-90">
+<input class="bg-transparent border-none p-0 text-sm font-medium text-slate-300 w-full focus:ring-0 focus:outline-none cursor-default" id="phone-input" readonly="" type="tel" value="+91 98765 43210"/>
+<span class="text-slate-500 text-xs tracking-wider">Verified</span>
+</div>
+</div>
+<!-- Save Changes Button -->
+<div class="pt-3">
+<button class="w-full py-3 px-4 rounded-xl font-semibold text-sm text-white gradient-btn shadow-btn-glow active:scale-[0.98] transition-all duration-200 tracking-wide" id="save-profile-btn" type="submit">
+                Save Changes
+              </button>
+</div>
+</form>
+</div>
+</section>
+<!-- END: CenterProfilePanel -->
+<!-- COLUMN 3: Right Settings Menu Options -->
+<!-- BEGIN: SettingsOptionsPanel -->
+<aside class="w-64 lg:w-72 hidden sm:flex flex-col py-6 px-4 bg-slate-950/40 select-none overflow-y-auto shrink-0" data-purpose="settings-menu-panel">
+<h2 class="text-xs uppercase tracking-wider font-semibold text-slate-400 mb-3 px-2">
+          General Settings
+        </h2>
+<!-- Settings Cards List -->
+<div class="space-y-1.5" role="list">
+<!-- Account -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:bg-indigo-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Account</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Privacy -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Privacy</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Notifications -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center group-hover:bg-pink-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Notifications</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Chat Settings -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Chat Settings</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Storage & Data -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center group-hover:bg-amber-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Storage &amp; Data</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Help -->
+<a class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-white/[0.08] hover:border-purple-500/40 transition-all text-slate-300 hover:text-white group" href="#" role="listitem">
+<div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:bg-blue-500/20 group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-medium flex-1">Help</span>
+<svg class="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<!-- Logout Button with Red Accent -->
+<div class="pt-3">
+<button class="w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl glass-panel hover:bg-red-500/10 hover:border-red-500/30 transition-all text-red-400 hover:text-red-300 group" data-purpose="logout-action" role="listitem" type="button">
+<div class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center group-hover:scale-105 transition">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<span class="text-sm font-semibold flex-1 text-left">Logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- END: SettingsOptionsPanel -->
+</main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>

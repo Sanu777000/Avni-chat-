@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config" id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout"><div class="flex flex-col w-full h-full overflow-hidden">
+<div class="flex flex-1 w-full h-full overflow-hidden">
+<!-- LEFT NAVIGATION & SETTINGS CATEGORIES SIDEBAR -->
+<aside class="w-80 shrink-0 flex flex-col bg-surface-container-lowest/80 backdrop-blur-2xl p-space-md overflow-y-auto">
+<!-- Section Tag -->
+<div class="flex items-center justify-between px-space-sm py-space-xs mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Preferences</span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary/20 text-primary">v2.4 Nocturne</span>
+</div>
+<!-- Main Navigation Items -->
+<nav class="space-y-1 mb-space-lg">
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant/40 hover:text-on-surface transition-all" href="#chats">
+<span class="material-symbols-outlined text-outline">chat_bubble</span>
+<span class="font-label-lg text-label-lg font-medium">Chats</span>
+<span class="ml-auto font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">4</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant/40 hover:text-on-surface transition-all" href="#groups">
+<span class="material-symbols-outlined text-outline">group</span>
+<span class="font-label-lg text-label-lg font-medium">Groups</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant/40 hover:text-on-surface transition-all" href="#contacts">
+<span class="material-symbols-outlined text-outline">contacts</span>
+<span class="font-label-lg text-label-lg font-medium">Contacts</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant/40 hover:text-on-surface transition-all" href="#status">
+<span class="material-symbols-outlined text-outline">motion_photos_on</span>
+<span class="font-label-lg text-label-lg font-medium">Status</span>
+</a>
+<!-- Active Settings Item -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT bg-primary-container/30 text-primary shadow-glow transition-all" href="#settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-lg text-label-lg font-semibold">Settings</span>
+<span class="ml-auto w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+</a>
+</nav>
+<!-- Settings Sub-Navigation Menu -->
+<div class="px-space-sm py-space-xs mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Settings Menu</span>
+</div>
+<div class="space-y-1">
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-outline text-[1.25rem]">person</span>
+<span class="font-body-md text-body-md">My Profile</span>
+</button>
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-outline text-[1.25rem]">lock</span>
+<span class="font-body-md text-body-md">Privacy &amp; Security</span>
+</button>
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-outline text-[1.25rem]">notifications</span>
+<span class="font-body-md text-body-md">Notifications</span>
+</button>
+<!-- Active Sub-Item: Chat Customization -->
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left bg-surface-container-high text-on-surface font-semibold shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-primary text-[1.25rem]" style="font-variation-settings: 'FILL' 1;">palette</span>
+<span class="font-body-md text-body-md text-primary">Chat Customization</span>
+<span class="material-symbols-outlined text-primary text-sm ml-auto">chevron_right</span>
+</button>
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-outline text-[1.25rem]">folder</span>
+<span class="font-body-md text-body-md">Storage &amp; Data</span>
+</button>
+<button class="w-full flex items-center gap-space-md px-space-md py-2.5 rounded-DEFAULT text-left text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-outline text-[1.25rem]">help</span>
+<span class="font-body-md text-body-md">Help &amp; Support</span>
+</button>
+</div>
+<!-- Quick Profile Card at bottom of sidebar -->
+<div class="mt-auto pt-space-lg">
+<div class="p-space-md rounded-DEFAULT bg-surface-container-high/60 backdrop-blur-md flex items-center gap-space-md shadow-sm">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Close up ethereal avatar photo of a young woman smiling gently under atmospheric violet neon lighting, cosmic nocturnal style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCedoNbFXU_om-kaayFqcQdCaDBqG0VY1KgbMyQmlFkkGb7g8MxCODt3rjG5iKxNf4yPeCHiDSbCbwaA2SwQmRZr5Gk0FEg32_4cyxrAnqU6_fwCG0mUF--9KdKK0SWwN42QmXRj5nGscYiA1N1a60AWJ8yOv9CWuo4kFM_PRCJum0CHOrm9O-OWTmvqNVAdya3TOHbR7bbazDMpmCdieQKZ0QEwH4y6hIRpMVoQsQwBue2cuLjO1baJg"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-tertiary-container rounded-full ring-2 ring-surface-dim"></span>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-headline-sm text-headline-sm truncate text-on-surface leading-tight">Avni Sharma</h4>
+<p class="font-body-sm text-body-sm text-outline truncate">@avni_official</p>
+</div>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- CENTER & RIGHT COMBINED WORKSPACE CANVAS -->
+<div class="flex-1 flex overflow-hidden bg-surface-dim">
+<!-- CENTER: Scrollable Settings Controls Workspace -->
+<div class="flex-1 overflow-y-auto px-space-xl py-space-lg space-y-space-lg">
+<!-- Breadcrumb & Workspace Header -->
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm text-outline">Settings</span>
+<span class="material-symbols-outlined text-outline text-xs">chevron_right</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Chat Customization</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Chat Customization &amp; Wallpaper</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Personalize your messaging atmosphere, wallpapers, and reading scale.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-DEFAULT bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant font-label-md text-label-md transition-all" id="reset-defaults-btn" type="button">
+              Reset Defaults
+            </button>
+<button class="gradient-btn px-space-lg py-2.5 rounded-DEFAULT text-white font-label-lg text-label-lg shadow-btn-glow transition-all flex items-center gap-1.5" id="save-profile-btn" type="button">
+<span class="material-symbols-outlined text-base">check</span>
+              Save Changes
+            </button>
+</div>
+</div>
+<!-- 1. THEME APPEARANCE CARD -->
+<section class="bg-surface-container-low/90 backdrop-blur-xl p-space-lg rounded-DEFAULT shadow-md">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-semibold">
+<span class="material-symbols-outlined text-primary">contrast</span>
+                Theme Appearance
+              </h2>
+<p class="font-body-sm text-body-sm text-outline">Select your preferred color luminance and visual mood.</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-medium">Active: Nocturne Glass</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md" id="theme-selector-grid">
+<!-- Dark Theme (Selected) -->
+<div class="theme-card cursor-pointer p-space-md rounded-DEFAULT bg-surface-container-high shadow-glow transition-all flex flex-col justify-between" data-theme="dark">
+<div class="h-28 rounded-DEFAULT bg-surface-container-lowest p-space-sm relative overflow-hidden flex flex-col justify-between mb-space-sm">
+<!-- Theme mini mockup preview -->
+<div class="flex items-center justify-between">
+<div class="w-12 h-2 rounded-full bg-primary/40"></div>
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+</div>
+<div class="space-y-1.5">
+<div class="w-24 h-4 rounded-full bg-surface-variant ml-auto"></div>
+<div class="w-32 h-4 rounded-full bg-surface-container"></div>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container-high/80"></div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">Dark (Nocturne)</h4>
+<p class="font-body-sm text-body-sm text-outline">Cosmic navy &amp; neon mist</p>
+</div>
+<span class="theme-check-icon material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+</div>
+<!-- Light Theme (Morning Star) -->
+<div class="theme-card cursor-pointer p-space-md rounded-DEFAULT bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col justify-between" data-theme="light">
+<div class="h-28 rounded-DEFAULT bg-inverse-surface p-space-sm relative overflow-hidden flex flex-col justify-between mb-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-12 h-2 rounded-full bg-inverse-primary/40"></div>
+<div class="w-3 h-3 rounded-full bg-primary-fixed-dim"></div>
+</div>
+<div class="space-y-1.5">
+<div class="w-24 h-4 rounded-full bg-primary-fixed ml-auto"></div>
+<div class="w-32 h-4 rounded-full bg-white"></div>
+</div>
+<div class="w-full h-3 rounded-full bg-slate-200"></div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">Light (Morning Star)</h4>
+<p class="font-body-sm text-body-sm text-outline">High contrast daylight</p>
+</div>
+<span class="theme-check-icon material-symbols-outlined text-outline/40 text-xl">radio_button_unchecked</span>
+</div>
+</div>
+<!-- System Theme -->
+<div class="theme-card cursor-pointer p-space-md rounded-DEFAULT bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col justify-between" data-theme="system">
+<div class="h-28 rounded-DEFAULT bg-gradient-to-r from-surface-container-lowest to-inverse-surface p-space-sm relative overflow-hidden flex flex-col justify-between mb-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-12 h-2 rounded-full bg-primary/40"></div>
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+</div>
+<div class="space-y-1.5">
+<div class="w-24 h-4 rounded-full bg-secondary/50 ml-auto"></div>
+<div class="w-32 h-4 rounded-full bg-surface-container"></div>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-bright/50"></div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">System Adaptive</h4>
+<p class="font-body-sm text-body-sm text-outline">Sync with OS circadian clock</p>
+</div>
+<span class="theme-check-icon material-symbols-outlined text-outline/40 text-xl">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. CHAT WALLPAPER GALLERY CARD -->
+<section class="bg-surface-container-low/90 backdrop-blur-xl p-space-lg rounded-DEFAULT shadow-md">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-semibold">
+<span class="material-symbols-outlined text-secondary">wallpaper</span>
+                Chat Wallpaper Gallery
+              </h2>
+<p class="font-body-sm text-body-sm text-outline">Atmospheric backdrops illuminated across peer and group chats.</p>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium" id="active-wallpaper-name">Purple Mountain Sunset</span>
+</div>
+<!-- Thumbnails Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-space-md" id="wallpaper-gallery">
+<!-- 1: Mountain Sunset (Selected) -->
+<div class="wallpaper-thumb cursor-pointer group relative rounded-DEFAULT overflow-hidden h-36 bg-surface-container-high transition-all shadow-glow" data-wallpaper="sunset">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Majestic dark mountain silhouette against an ethereal violet and magenta starry twilight sky with falling meteors in cinematic anime aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnN5KZJ0ZVOF_9wYfZm1Mk8VuwgrVidZpa2PdlzaKSbHEr8BfsKkFPv6n6hLI2B8wkTIm2bNp8_UsiAlEkJjV2XeVCxyIPgqZdRopj46g0SaWDcL2R9i9-XkazO7h7hUv5hTbpX_XkQ_ra1eErxqpiOvipyRYHmAhpgQ6KdV8dul0PuQj6Se1nf9gwOIOqWomaV_ld4-wAMM9GENfek0q7XoIl0TDPubucx4bwHC8F2NtP3PXy-xFBqA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 via-transparent to-transparent flex items-end p-2.5">
+<div class="w-full flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold truncate">Mountain Sunset</span>
+<span class="material-symbols-outlined text-primary text-base drop-shadow">check_circle</span>
+</div>
+</div>
+</div>
+<!-- 2: Cosmic Nebula -->
+<div class="wallpaper-thumb cursor-pointer group relative rounded-DEFAULT overflow-hidden h-36 bg-surface-container-high transition-all" data-wallpaper="nebula">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Deep nocturnal purple space nebula sparkling with distant glowing blue and pink star dust, ethereal galactic atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmpWyA-MQNSKIs6b2xYsyZGpkYD3KCw5JaKSfbG9Sk_PG_Js0yEcSDZoUeLhzhAtEtqxqGJYWeUPZTryNEhAx7GFNss3arNYV5h3HKpZAXKSyUyggnPD7LuU78s_tmXYuqLm2NHNHuzoe3q5NcThshawqJu9ymf6fl1NSqZKTa5TxKPj6l-U9jAKlj59oAdDZf15H_Ps3r82_TincoKTAXyP75EMVf3-6VBlSRDh9jUNaHOZhnKaf1Mg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 via-transparent to-transparent flex items-end p-2.5">
+<div class="w-full flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold truncate">Cosmic Nebula</span>
+<span class="material-symbols-outlined text-white/30 text-base">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<!-- 3: Deep Violet Aurora -->
+<div class="wallpaper-thumb cursor-pointer group relative rounded-DEFAULT overflow-hidden h-36 bg-surface-container-high transition-all" data-wallpaper="aurora">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Dramatic night sky glowing with vibrant violet and indigo aurora borealis ribbons dancing over quiet nocturnal landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBaGkwvS2k7wsbBBgYzsSRyoPsrRbj8Zy-BpNExL96jfc9MKAsc9z7R571OMWBJZm22xycOcALBkRlRb4O020N17BCbF824c7oEl_amAiBF8KG7IlIYDhlrnF_iiqWXGm4oZD2Zr42MsgRKLb8ZdnKDLM-t66LGlKDmzwZnDfUezsBoKKGzgQqyg8PgM1i-QrPh03rch0GJLPqLsrp2xqp1rYD7jxbYPGHgJG9KgNnfl-ypr2XDIYhog"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 via-transparent to-transparent flex items-end p-2.5">
+<div class="w-full flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold truncate">Violet Aurora</span>
+<span class="material-symbols-outlined text-white/30 text-base">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<!-- 4: Solid Obsidian Glass -->
+<div class="wallpaper-thumb cursor-pointer group relative rounded-DEFAULT overflow-hidden h-36 bg-gradient-to-br from-surface-container-lowest via-surface-dim to-surface-container-high transition-all" data-wallpaper="obsidian">
+<div class="w-full h-full flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-primary/10 blur-xl"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 via-transparent to-transparent flex items-end p-2.5">
+<div class="w-full flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold truncate">Solid Obsidian</span>
+<span class="material-symbols-outlined text-white/30 text-base">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<!-- 5: Custom Upload -->
+<div class="cursor-pointer group relative rounded-DEFAULT overflow-hidden h-36 bg-surface-container/50 hover:bg-surface-container-high transition-all flex flex-col items-center justify-center p-3 text-center" id="custom-upload-card">
+<div class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl">add_photo_alternate</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Custom Photo</span>
+<span class="font-label-sm text-label-sm text-outline mt-0.5">JPG, PNG, GIF</span>
+</div>
+</div>
+<!-- Wallpaper Opacity & Blur Sliders -->
+<div class="mt-space-lg pt-space-md grid grid-cols-1 md:grid-cols-2 gap-space-lg bg-surface-container-lowest/60 p-space-md rounded-DEFAULT">
+<!-- Dimming Slider -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface font-medium flex items-center gap-1.5" for="wallpaper-dim-slider">
+<span class="material-symbols-outlined text-sm text-outline">brightness_6</span>
+                  Wallpaper Dimming
+                </label>
+<span class="font-label-sm text-label-sm text-primary font-semibold" id="dim-value">45%</span>
+</div>
+<input class="w-full accent-primary bg-surface-variant h-1.5 rounded-full cursor-pointer" id="wallpaper-dim-slider" max="90" min="0" type="range" value="45"/>
+<div class="flex justify-between text-outline font-label-sm text-[10px]">
+<span>Vivid (0%)</span>
+<span>Deep Dark (90%)</span>
+</div>
+</div>
+<!-- Frosted Glass Blur Slider -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface font-medium flex items-center gap-1.5" for="wallpaper-blur-slider">
+<span class="material-symbols-outlined text-sm text-outline">blur_on</span>
+                  Frosted Glass Blur
+                </label>
+<span class="font-label-sm text-label-sm text-secondary font-semibold" id="blur-value">16px</span>
+</div>
+<input class="w-full accent-secondary bg-surface-variant h-1.5 rounded-full cursor-pointer" id="wallpaper-blur-slider" max="32" min="0" type="range" value="16"/>
+<div class="flex justify-between text-outline font-label-sm text-[10px]">
+<span>Clear (0px)</span>
+<span>Ultra Frosted (32px)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. TYPOGRAPHIC & CHAT BUBBLE PREFERENCES -->
+<section class="bg-surface-container-low/90 backdrop-blur-xl p-space-lg rounded-DEFAULT shadow-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-semibold mb-space-md">
+<span class="material-symbols-outlined text-tertiary">format_size</span>
+            Typographic &amp; Chat Bubble Preferences
+          </h2>
+<div class="space-y-space-md">
+<!-- Message Font Size Segmented Control -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-DEFAULT bg-surface-container-lowest/50">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-medium">Message Font Size</h4>
+<p class="font-body-sm text-body-sm text-outline">Adjust font scale for chat streams and preview panes.</p>
+</div>
+<div class="flex items-center bg-surface-container p-1 rounded-DEFAULT" id="font-size-segmented">
+<button class="px-space-md py-1.5 rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-all" data-size="sm" type="button">Small (13px)</button>
+<button class="px-space-md py-1.5 rounded-DEFAULT bg-primary text-on-primary font-label-md text-label-md font-semibold shadow-sm transition-all" data-size="md" type="button">Medium (15px)</button>
+<button class="px-space-md py-1.5 rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-all" data-size="lg" type="button">Large (17px)</button>
+</div>
+</div>
+<!-- Toggle: Enter is Send -->
+<div class="flex items-center justify-between p-space-md rounded-DEFAULT bg-surface-container-lowest/50">
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">keyboard_return</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-medium">Enter key sends message</h4>
+<p class="font-body-sm text-body-sm text-outline">Press Shift + Enter to add new lines instead of sending directly.</p>
+</div>
+</div>
+<!-- Interactive Switch -->
+<button aria-checked="true" class="w-12 h-6 rounded-full bg-primary p-1 flex items-center transition-colors focus:outline-none" data-toggle="enter-send" role="switch" type="button">
+<div class="w-4 h-4 rounded-full bg-white shadow-md transform translate-x-6 transition-transform"></div>
+</button>
+</div>
+<!-- Toggle: High-Contrast Pearl Incoming Bubbles -->
+<div class="flex items-center justify-between p-space-md rounded-DEFAULT bg-surface-container-lowest/50">
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-secondary/20 text-secondary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">flourescent</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-medium">High-Contrast Chat Bubbles</h4>
+<p class="font-body-sm text-body-sm text-outline">Enhances bubble opacity for crisp readability in bright ambient lighting.</p>
+</div>
+</div>
+<!-- Interactive Switch -->
+<button aria-checked="true" class="w-12 h-6 rounded-full bg-primary p-1 flex items-center transition-colors focus:outline-none" data-toggle="high-contrast" role="switch" type="button">
+<div class="w-4 h-4 rounded-full bg-white shadow-md transform translate-x-6 transition-transform"></div>
+</button>
+</div>
+</div>
+</section>
+<!-- 4. MEDIA AUTO-DOWNLOAD & QUALITY -->
+<section class="bg-surface-container-low/90 backdrop-blur-xl p-space-lg rounded-DEFAULT shadow-md mb-space-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-semibold mb-space-md">
+<span class="material-symbols-outlined text-tertiary-container">perm_media</span>
+            Media Auto-Download &amp; Quality
+          </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Photos Auto-Download -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-lowest/50 flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">image</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Photos</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Wi-Fi &amp; Cellular</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">High-definition photography downloads automatically in background.</p>
+<select class="w-full bg-surface-container rounded-DEFAULT px-3 py-2 text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary">
+<option selected="" value="both">When using Wi-Fi &amp; Cellular</option>
+<option value="wifi">When connected to Wi-Fi only</option>
+<option value="never">Never (Manual tap to download)</option>
+</select>
+</div>
+<!-- Videos Auto-Download -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-lowest/50 flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">videocam</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Videos</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Wi-Fi Only</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Full HD video playback preserves mobile data bandwidth.</p>
+<select class="w-full bg-surface-container rounded-DEFAULT px-3 py-2 text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary">
+<option selected="" value="wifi">When connected to Wi-Fi only</option>
+<option value="both">When using Wi-Fi &amp; Cellular</option>
+<option value="never">Never (Manual tap to download)</option>
+</select>
+</div>
+<!-- Voice Notes Auto-play -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-lowest/50 flex items-center justify-between md:col-span-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">mic</span>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-medium">Consecutive Voice Note Autoplay</h4>
+<p class="font-body-sm text-body-sm text-outline">Automatically plays incoming audio memos sequentially.</p>
+</div>
+</div>
+<!-- Interactive Switch -->
+<button aria-checked="true" class="w-12 h-6 rounded-full bg-primary p-1 flex items-center transition-colors focus:outline-none" data-toggle="voice-autoplay" role="switch" type="button">
+<div class="w-4 h-4 rounded-full bg-white shadow-md transform translate-x-6 transition-transform"></div>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT: Interactive Live Chat Preview Pane (Inspired by reference mockup layout) -->
+<aside class="w-[380px] shrink-0 hidden xl:flex flex-col bg-surface-container-lowest/90 backdrop-blur-2xl p-space-md overflow-hidden">
+<!-- Preview Header -->
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">visibility</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Live Chat Preview</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Real-time sync</span>
+</div>
+<!-- Simulated Mobile/Chat Window Frame with dynamic background -->
+<div class="flex-1 rounded-DEFAULT overflow-hidden relative flex flex-col shadow-2xl bg-cover bg-center transition-all duration-300" data-alt="Majestic dark mountain silhouette against an ethereal violet and magenta starry twilight sky with falling meteors in cinematic anime aesthetic" id="live-chat-viewport" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD954Vj92KHI99NNp8Ckbshv6Ngl4BEKgTFEzLOLddVnpTgNzlCDEjNeO1QrI8EBGymNdil_wMTwZTJ0t6ULQZLpfQJYLAz5wzo_NT8gv9-v4kFhph-YTga-i5pN_RJyz616lJjVfkInwIfYvtAEaN94BrNQ1OEU-TwcASIF9ACGPD6lXA9hJXQM6Ks0gBXG636XCHzLDF2n4Vv2f_PAp_WCLHSz4WBd7XaHESfcDdqstpeVMcc0IBrOQ')">
+<!-- Dynamic Dimmer Overlay -->
+<div class="absolute inset-0 bg-surface-dim/45 backdrop-blur-[16px] transition-all" id="live-chat-overlay"></div>
+<!-- Pinned Chat Top Header in Preview -->
+<div class="relative z-10 p-3 bg-surface-container-lowest/60 backdrop-blur-md flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Portrait avatar photo of a young man wearing cool modern sunglasses with electric blue nocturnal backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMsvuebN1Cvf-GqurZiFNW5FDsVnM2FoBHiCrJVGBc-UvwYDPn71eRe7P60TGzh9w-O-zzvDF1-9Ex4NJWvXtsGAkKINhSGVJEx9VIHUgrat0zg8AzGJD8dvK_KoVTaS3CjyHJSyWqlpOK6yCJMV5iMwub_89Qa_U753veLORGciI-COGLS0KvhDOwz2fomcqVDWG7BIY9KxXAF4SR0Q1vMSBBd6TwgVfejQc1hrHNPrLwrsRXkoWQDg"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 bg-emerald-400 rounded-full"></span>
+</div>
+<div>
+<h5 class="font-headline-sm text-headline-sm text-sm text-on-surface font-semibold leading-tight">Rohan</h5>
+<span class="font-label-sm text-label-sm text-emerald-400 text-[10px]">Online</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-sm">call</span>
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</div>
+</div>
+<!-- Chat Stream Content Area -->
+<div class="relative z-10 flex-1 p-space-md overflow-y-auto space-y-space-md flex flex-col justify-end text-[15px]" id="chat-messages-container">
+<!-- Timestamp Pill -->
+<div class="flex justify-center">
+<span class="font-label-sm text-[11px] px-3 py-0.5 rounded-full bg-surface-container-high/80 text-on-surface-variant font-medium">Today</span>
+</div>
+<!-- Incoming Message (Pearl Card) -->
+<div class="flex flex-col items-start max-w-[85%] self-start">
+<div class="bubble-incoming bg-white text-slate-900 px-3.5 py-2.5 rounded-2xl rounded-bl-xs shadow-md">
+<p class="font-body-md leading-snug">Hey Avni! 😊 Kaisi ho?</p>
+<div class="flex justify-end mt-1">
+<span class="font-label-sm text-[10px] text-slate-500">10:12 AM</span>
+</div>
+</div>
+</div>
+<!-- Outgoing Message (Ultraviolet Gradient) -->
+<div class="flex flex-col items-end max-w-[85%] self-end">
+<div class="bubble-outgoing gradient-btn text-white px-3.5 py-2.5 rounded-2xl rounded-br-xs shadow-glow">
+<p class="font-body-md leading-snug">Main theek hu bhai! Tum batao?</p>
+<div class="flex items-center justify-end gap-1 mt-1">
+<span class="font-label-sm text-[10px] text-white/80">10:13 AM</span>
+<span class="material-symbols-outlined text-[12px] text-tertiary">done_all</span>
+</div>
+</div>
+</div>
+<!-- Incoming Message with attachment preview -->
+<div class="flex flex-col items-start max-w-[85%] self-start">
+<div class="bubble-incoming bg-white text-slate-900 px-3.5 py-2.5 rounded-2xl rounded-bl-xs shadow-md">
+<p class="font-body-md leading-snug">Bhai kal milte hai? Kuch important baat karni hai. 🌟</p>
+<div class="flex justify-end mt-1">
+<span class="font-label-sm text-[10px] text-slate-500">10:20 AM</span>
+</div>
+</div>
+</div>
+<!-- Outgoing Message -->
+<div class="flex flex-col items-end max-w-[85%] self-end">
+<div class="bubble-outgoing gradient-btn text-white px-3.5 py-2.5 rounded-2xl rounded-br-xs shadow-glow">
+<p class="font-body-md leading-snug">Haan sure! Kaha milna hai?</p>
+<div class="flex items-center justify-end gap-1 mt-1">
+<span class="font-label-sm text-[10px] text-white/80">10:21 AM</span>
+<span class="material-symbols-outlined text-[12px] text-tertiary">done_all</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Message Composition Bar in Preview -->
+<div class="relative z-10 p-2.5 bg-surface-container-lowest/70 backdrop-blur-md flex items-center gap-2">
+<button class="text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-lg">sentiment_satisfied</span>
+</button>
+<input class="flex-1 bg-surface-container-high/60 rounded-full px-3 py-1.5 text-xs text-on-surface placeholder:text-outline/70 focus:outline-none" disabled="" placeholder="Type a message..." type="text"/>
+<button class="text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-lg">attach_file</span>
+</button>
+<button class="w-7 h-7 rounded-full gradient-btn flex items-center justify-center text-white shadow-glow" type="button">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+<!-- Preview Caption Tip -->
+<p class="text-center font-label-sm text-label-sm text-outline mt-3">
+          Simulated live preview updates instantly with your preferences.
+        </p>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Theme selector cards
+    const themeCards = document.querySelectorAll('.theme-card');
+    themeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        themeCards.forEach(c => {
+          c.classList.remove('bg-surface-container-high', 'shadow-glow');
+          c.classList.add('bg-surface-container-low');
+          const icon = c.querySelector('.theme-check-icon');
+          if (icon) {
+            icon.innerText = 'radio_button_unchecked';
+            icon.classList.remove('text-primary');
+            icon.classList.add('text-outline/40');
+          }
+        });
+        card.classList.add('bg-surface-container-high', 'shadow-glow');
+        card.classList.remove('bg-surface-container-low');
+        const icon = card.querySelector('.theme-check-icon');
+        if (icon) {
+          icon.innerText = 'check_circle';
+          icon.classList.add('text-primary');
+          icon.classList.remove('text-outline/40');
+        }
+      });
+    });
+
+    // 2. Wallpaper thumbnails selection
+    const wallpapers = {
+      sunset: {
+        name: 'Purple Mountain Sunset',
+        gradient: 'radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%)'
+      },
+      nebula: {
+        name: 'Cosmic Nebula Twilight',
+        gradient: 'radial-gradient(circle at 50% 50%, #29104d 0%, #0c081e 60%, #03020a 100%)'
+      },
+      aurora: {
+        name: 'Deep Violet Aurora',
+        gradient: 'linear-gradient(180deg, #18093c 0%, #09132e 50%, #050814 100%)'
+      },
+      obsidian: {
+        name: 'Solid Obsidian Glass',
+        gradient: 'linear-gradient(135deg, #0b0d19 0%, #151828 100%)'
+      }
+    };
+
+    const wallpaperThumbs = document.querySelectorAll('.wallpaper-thumb');
+    const activeWallpaperLabel = document.getElementById('active-wallpaper-name');
+    const liveChatViewport = document.getElementById('live-chat-viewport');
+
+    wallpaperThumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        wallpaperThumbs.forEach(t => {
+          t.classList.remove('shadow-glow');
+          const checkIcon = t.querySelector('.material-symbols-outlined');
+          if (checkIcon) {
+            checkIcon.innerText = 'radio_button_unchecked';
+            checkIcon.classList.remove('text-primary');
+            checkIcon.classList.add('text-white/30');
+          }
+        });
+
+        thumb.classList.add('shadow-glow');
+        const checkIcon = thumb.querySelector('.material-symbols-outlined');
+        if (checkIcon) {
+          checkIcon.innerText = 'check_circle';
+          checkIcon.classList.add('text-primary');
+          checkIcon.classList.remove('text-white/30');
+        }
+
+        const wpKey = thumb.getAttribute('data-wallpaper');
+        if (wallpapers[wpKey]) {
+          activeWallpaperLabel.innerText = wallpapers[wpKey].name;
+          if (wpKey === 'obsidian') {
+            liveChatViewport.style.backgroundImage = 'none';
+            liveChatViewport.style.background = wallpapers[wpKey].gradient;
+          } else {
+            liveChatViewport.style.background = wallpapers[wpKey].gradient;
+          }
+        }
+      });
+    });
+
+    // Custom upload placeholder click trigger
+    const uploadBtn = document.getElementById('custom-upload-card');
+    if (uploadBtn) {
+      uploadBtn.addEventListener('click', () => {
+        alert('Custom wallpaper uploader opened. Select any 1080p image file.');
+      });
+    }
+
+    // 3. Wallpaper Dimming & Blur Sliders
+    const dimSlider = document.getElementById('wallpaper-dim-slider');
+    const dimValue = document.getElementById('dim-value');
+    const blurSlider = document.getElementById('wallpaper-blur-slider');
+    const blurValue = document.getElementById('blur-value');
+    const liveChatOverlay = document.getElementById('live-chat-overlay');
+
+    if (dimSlider && dimValue && liveChatOverlay) {
+      dimSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        dimValue.innerText = val + '%';
+        liveChatOverlay.style.backgroundColor = `rgba(17, 19, 30, ${val / 100})`;
+      });
+    }
+
+    if (blurSlider && blurValue && liveChatOverlay) {
+      blurSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        blurValue.innerText = val + 'px';
+        liveChatOverlay.style.backdropFilter = `blur(${val}px)`;
+      });
+    }
+
+    // 4. Message font size segmented control
+    const sizeButtons = document.querySelectorAll('#font-size-segmented button');
+    const chatContainer = document.getElementById('chat-messages-container');
+
+    sizeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sizeButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-sm');
+          b.classList.add('text-on-surface-variant');
+        });
+        btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-sm');
+        btn.classList.remove('text-on-surface-variant');
+
+        const size = btn.getAttribute('data-size');
+        if (chatContainer) {
+          if (size === 'sm') {
+            chatContainer.style.fontSize = '13px';
+          } else if (size === 'md') {
+            chatContainer.style.fontSize = '15px';
+          } else if (size === 'lg') {
+            chatContainer.style.fontSize = '17px';
+          }
+        }
+      });
+    });
+
+    // 5. Switches toggle handler
+    const switches = document.querySelectorAll('button[role="switch"]');
+    switches.forEach(sw => {
+      sw.addEventListener('click', () => {
+        const isChecked = sw.getAttribute('aria-checked') === 'true';
+        const newChecked = !isChecked;
+        sw.setAttribute('aria-checked', String(newChecked));
+        const thumb = sw.querySelector('div');
+
+        if (newChecked) {
+          sw.classList.remove('bg-surface-variant');
+          sw.classList.add('bg-primary');
+          thumb.classList.remove('translate-x-0');
+          thumb.classList.add('translate-x-6');
+        } else {
+          sw.classList.remove('bg-primary');
+          sw.classList.add('bg-surface-variant');
+          thumb.classList.remove('translate-x-6');
+          thumb.classList.add('translate-x-0');
+        }
+
+        // Specific effect for high-contrast toggle
+        if (sw.getAttribute('data-toggle') === 'high-contrast') {
+          const incomingBubbles = document.querySelectorAll('.bubble-incoming');
+          incomingBubbles.forEach(b => {
+            if (newChecked) {
+              b.classList.remove('bg-white/80', 'backdrop-blur-sm');
+              b.classList.add('bg-white');
+            } else {
+              b.classList.remove('bg-white');
+              b.classList.add('bg-white/80', 'backdrop-blur-sm');
+            }
+          });
+        }
+      });
+    });
+
+    // 6. Reset Defaults button
+    const resetBtn = document.getElementById('reset-defaults-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (dimSlider) {
+          dimSlider.value = 45;
+          dimValue.innerText = '45%';
+          liveChatOverlay.style.backgroundColor = 'rgba(17, 19, 30, 0.45)';
+        }
+        if (blurSlider) {
+          blurSlider.value = 16;
+          blurValue.innerText = '16px';
+          liveChatOverlay.style.backdropFilter = 'blur(16px)';
+        }
+        // Trigger click on Medium font size
+        const medBtn = document.querySelector('button[data-size="md"]');
+        if (medBtn) medBtn.click();
+      });
+    }
+  });
+</script></main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>

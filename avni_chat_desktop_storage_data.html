@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avni Chat - Settings &amp; Profile</title>
+<!-- Tailwind CSS v3 CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config" id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b19',
+              card: 'rgba(19, 26, 53, 0.65)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              hover: 'rgba(255, 255, 255, 0.05)',
+              purple: '#7952f5',
+              magenta: '#c93bf6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            glow: '0 0 25px -5px rgba(121, 82, 245, 0.45)',
+            'btn-glow': '0 4px 20px 0 rgba(168, 85, 247, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Glassmorphism & UI Accents -->
+<style data-purpose="glassmorphic-styles">
+    body {
+      background: radial-gradient(circle at 15% 15%, #161c3a 0%, #070a16 55%, #04060c 100%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(12, 17, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-input:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+    .gradient-btn {
+      background: linear-gradient(90deg, #6d3ef2 0%, #b23be7 50%, #d834b6 100%);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(90deg, #7b4df8 0%, #be4cf1 50%, #e344c2 100%);
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-full text-slate-200 antialiased font-sans flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
+<!-- BEGIN: Application Container -->
+<div class="h-full w-full max-w-[1440px] mx-auto rounded-3xl glass-panel shadow-2xl flex flex-col overflow-hidden border border-white/10" data-purpose="app-wrapper">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/10 px-5 flex items-center justify-between gap-4 bg-slate-900/40 select-none shrink-0" data-purpose="top-header">
+<!-- Left side: Menu trigger & App Logo branding -->
+<div class="flex items-center gap-4">
+<button aria-label="Open menu" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🦋</span>
+<span class="text-lg font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-white bg-clip-text text-transparent tracking-wide">Avni Chat</span>
+<span class="text-xl">🦋</span>
+</div>
+</div>
+<!-- Center: Search input bar -->
+<div class="flex-1 max-w-xl mx-4 hidden sm:block">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full bg-slate-950/50 text-xs sm:text-sm text-slate-200 placeholder-slate-400 rounded-full pl-10 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" data-purpose="global-search" placeholder="Search or start new chat..." type="search"/>
+</div>
+</div>
+<!-- Right side: Notifications & User profile pill -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition relative" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-500 rounded-full ring-2 ring-slate-900"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
+<div class="relative">
+<img alt="Avni avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3aXihLJg5VhsqAkYrWbxNy2rX9A1QGqJYE8uUaTRtxeqTsL839nj29f9W5Hp2rUF7vz9KW8he-RbR-ZtI0Fqmqtk7AC76releBoQJe82ccA7M65N8bY_iGIMpV19TXgrQ7dIWmburLzfcgDrKsNysbHK8kMmPMAwDdZsQxEMorCsZj4AKgVSNV6z-p_fOSCHCUkg-lTHpZlY5NWhRPhWqYYmETc4et7bLdKGd9dd3voDPVjrHDEIEQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-100 leading-tight">Avni</span>
+<span class="text-[11px] text-emerald-400 font-medium">Online</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentGrid (3-Column Layout) -->
+<main class="flex-1 flex overflow-hidden divide-x divide-white/5" data-purpose="settings-main-layout"><div class="flex flex-col w-full h-full relative overflow-hidden">
+<div class="flex-1 flex flex-col lg:flex-row h-full overflow-hidden">
+<!-- Left Navigation Rail / Settings Navigation Sidebar -->
+<aside class="w-full lg:w-72 shrink-0 bg-surface-container-lowest/80 backdrop-blur-xl flex flex-col p-4 lg:p-6 overflow-y-auto">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">tune</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Settings</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Preferences &amp; System</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1.5 flex-1">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">account_circle</span>
+<span class="font-label-lg text-label-lg">Account</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">shield_lock</span>
+<span class="font-label-lg text-label-lg">Privacy &amp; Security</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">notifications</span>
+<span class="font-label-lg text-label-lg">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">chat</span>
+<span class="font-label-lg text-label-lg">Chat Settings</span>
+</a>
+<!-- Active Nav Item -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full bg-surface-container-high text-primary shadow-sm" href="#" style="box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 14px rgba(124, 58, 237, 0.25);">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">pie_chart</span>
+<span class="font-label-lg text-label-lg font-bold">Storage &amp; Data</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">devices</span>
+<span class="font-label-lg text-label-lg">Linked Devices</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 transition-colors" href="#">
+<span class="material-symbols-outlined text-headline-sm">help</span>
+<span class="font-label-lg text-label-lg">Help &amp; Feedback</span>
+</a>
+</nav>
+<!-- Bottom Profile Snapshot -->
+<div class="mt-6 pt-4 bg-surface-container/60 rounded-2xl p-3 flex items-center gap-3">
+<div class="relative shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-md" data-alt="Intimate soft-lit profile photo of Avni with subtle neon reflections and cosmic midnight violet atmospheric background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8SDDuXig-w87VYAHg7NRWT5Kzcq8sPXT10uIJcfarOzQlsx9SWtFHMc0dDGdruThWyvpnE3X7McFAcDG87Lzvo-cc9tS7p5J5kH5lxWU80sixhkWxcZ73yKcf2gn2u-wGh-gcQyVaR1Y2mh4pwL0QZEF1Kxgd0gOtT2fh6DGTSEqDhrrKhr4W9dqoldNGJwjqiDgDKPCrvqIlPkEuyc1Z3rMmNMk3IeANQKnj-MZ3De7KRqol4tpoHA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-tertiary-container rounded-full"></span>
+</div>
+<div class="min-w-0 flex-1">
+<p class="font-label-md text-label-md text-on-surface truncate font-semibold">Avni</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">@avni_official</p>
+</div>
+<button aria-label="Sign out" class="text-on-surface-variant hover:text-error transition-colors p-1" type="button">
+<span class="material-symbols-outlined text-headline-sm">logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Settings Canvas -->
+<section class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6">
+<!-- Title & Breadcrumb -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider mb-1">
+<span>Settings</span>
+<span>/</span>
+<span class="text-primary font-bold">Storage &amp; Data Usage</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Storage &amp; Data</h1>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-auto">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+            Sync Active
+          </span>
+</div>
+</div>
+<!-- Section 1: Storage Overview Bento Card -->
+<div class="relative rounded-2xl bg-surface-container-low/90 backdrop-blur-xl p-5 sm:p-7 shadow-xl overflow-hidden">
+<!-- Glow accents inside card -->
+<div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-16 w-48 h-48 rounded-full bg-secondary-container/15 blur-3xl pointer-events-none"></div>
+<div class="relative flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+<div>
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md font-semibold mb-1">
+<span class="material-symbols-outlined text-label-lg">hard_drive</span>
+<span>Internal Storage</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-extrabold" id="storage-used-text">3.4 GB</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">of 64 GB used</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Approximately 5.3% space taken by chats and shared media attachments.</p>
+</div>
+<button class="self-start md:self-auto px-5 py-2.5 rounded-full bg-gradient-to-r from-primary-container via-secondary-container to-secondary text-on-primary font-label-lg text-label-lg font-bold shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 shrink-0" id="manage-storage-trigger" type="button">
+<span class="material-symbols-outlined text-headline-sm">auto_fix_high</span>
+<span>Manage Storage &amp; Free Up Space</span>
+</button>
+</div>
+<!-- Segmented Progress Bar -->
+<div class="mb-5">
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden flex p-0.5 gap-0.5">
+<div class="h-full rounded-l-full bg-secondary transition-all duration-700 ease-out" id="bar-photos" style="width: 53%;" title="Photos: 1.8 GB"></div>
+<div class="h-full bg-primary-container transition-all duration-700 ease-out" id="bar-videos" style="width: 32%;" title="Videos: 1.1 GB"></div>
+<div class="h-full bg-tertiary-container transition-all duration-700 ease-out" id="bar-docs" style="width: 10%;" title="Docs &amp; Audio: 340 MB"></div>
+<div class="h-full rounded-r-full bg-primary-fixed transition-all duration-700 ease-out" id="bar-cache" style="width: 5%;" title="Cache: 142.8 MB"></div>
+</div>
+</div>
+<!-- Storage Breakdown Legend -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+<div class="flex items-center gap-2.5 bg-surface-container/60 p-2.5 rounded-xl">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary shrink-0"></span>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block truncate">Photos</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">1.8 GB</span>
+</div>
+</div>
+<div class="flex items-center gap-2.5 bg-surface-container/60 p-2.5 rounded-xl">
+<span class="w-3.5 h-3.5 rounded-full bg-primary-container shrink-0"></span>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block truncate">Videos</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">1.1 GB</span>
+</div>
+</div>
+<div class="flex items-center gap-2.5 bg-surface-container/60 p-2.5 rounded-xl">
+<span class="w-3.5 h-3.5 rounded-full bg-tertiary-container shrink-0"></span>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block truncate">Docs &amp; Audio</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">340 MB</span>
+</div>
+</div>
+<div class="flex items-center gap-2.5 bg-surface-container/60 p-2.5 rounded-xl">
+<span class="w-3.5 h-3.5 rounded-full bg-primary-fixed shrink-0"></span>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block truncate">System Cache</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold" id="cache-legend-val">142.8 MB</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Two-Column Grid for Cache & Network Management -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Section 2: Cache & Temporary Data -->
+<div class="rounded-2xl bg-surface-container-low/90 backdrop-blur-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-primary font-label-md text-label-md font-semibold mb-1">
+<span class="material-symbols-outlined text-label-lg">cleaning_services</span>
+<span>Temporary Files</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Cache &amp; Storage Maintenance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Clear temporary data to reclaim local room. Cached attachments will be re-downloaded seamlessly when accessed.
+            </p>
+</div>
+<!-- Action list -->
+<div class="flex flex-col gap-3">
+<!-- Clear Cache Row -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-headline-sm">cached</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface font-semibold truncate">App Cache Store</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate" id="cache-subtext">Current size: 142.8 MB</p>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-high text-on-surface hover:text-primary hover:bg-surface-bright font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5 shrink-0 shadow-sm" id="open-cache-modal-btn" type="button">
+<span class="material-symbols-outlined text-label-lg">delete</span>
+<span>Clear Cache</span>
+</button>
+</div>
+<!-- Clear Chat History Row -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-error-container/20 flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined text-headline-sm">delete_forever</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-error font-semibold truncate">Clear Chat History</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Purge chat transcripts &amp; local media logs</p>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full bg-error-container/30 text-error hover:bg-error-container/50 font-label-md text-label-md font-semibold transition-colors shrink-0" id="open-history-modal-btn" type="button">
+<span>Erase Chats</span>
+</button>
+</div>
+</div>
+<!-- Quick Tip Callout -->
+<div class="p-3 bg-surface-container-high/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-tertiary text-label-lg mt-0.5 shrink-0">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Cloud backups via Avni Sync ensure your message memories, starred notes, and contact avatars remain securely intact.
+            </p>
+</div>
+</div>
+<!-- Section 3: Network & Data Consumption -->
+<div class="rounded-2xl bg-surface-container-low/90 backdrop-blur-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-tertiary font-label-md text-label-md font-semibold mb-1">
+<span class="material-symbols-outlined text-label-lg">network_check</span>
+<span>Network Statistics</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Network &amp; Data Consumption</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Manage bandwidth thresholds, roaming constraints, and original media transmission sizes.
+            </p>
+</div>
+<!-- Data sent / received visual metric pills -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container p-3.5 rounded-xl flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-label-md">arrow_upward</span>
+<span>Data Sent</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">4.8 GB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Since last reset (Jan 1)</span>
+</div>
+<div class="bg-surface-container p-3.5 rounded-xl flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-label-md">arrow_downward</span>
+<span>Data Received</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">12.2 GB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">High-fidelity streams &amp; voice</span>
+</div>
+</div>
+<!-- Toggles -->
+<div class="flex flex-col gap-3">
+<!-- Low Data Mode Toggle -->
+<label class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between gap-4 cursor-pointer select-none">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-headline-sm">signal_cellular_alt_1_bar</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface font-semibold truncate">Low Data Mode (Roaming)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Pause automatic video playback and heavy downloads</p>
+</div>
+</div>
+<div class="relative inline-flex items-center shrink-0">
+<input class="sr-only peer" id="toggle-low-data" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+</div>
+</label>
+<!-- High Quality Upload Toggle -->
+<label class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between gap-4 cursor-pointer select-none">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-headline-sm">high_quality</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface font-semibold truncate">High Quality Media Upload</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Always upload photos in full resolution / RAW</p>
+</div>
+</div>
+<div class="relative inline-flex items-center shrink-0">
+<input checked="" class="sr-only peer" id="toggle-high-quality" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container shadow-inner"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Clear Cache Modal Dialog Backdrop & Sheet -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-surface-container-lowest/70 backdrop-blur-md hidden transition-opacity" id="clear-cache-modal">
+<div class="relative w-full max-w-md rounded-2xl bg-surface-container-high/90 backdrop-blur-2xl p-6 shadow-2xl flex flex-col gap-5" style="box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(121, 82, 245, 0.25);">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-headline-md">delete_sweep</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">Clear Cache?</h4>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Freeing up 142.8 MB</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        This will delete cached preview images, temporary thumbnails, and local stickers. Your messages, attachments, and cloud sync will remain completely safe.
+      </p>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-bright font-label-lg text-label-lg font-semibold transition-colors" id="cancel-cache-modal" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary font-label-lg text-label-lg font-bold shadow-md hover:opacity-95 transition-all" id="confirm-cache-modal" type="button">
+          Clear Cache
+        </button>
+</div>
+</div>
+</div>
+<!-- Clear Chat History Destructive Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-surface-container-lowest/70 backdrop-blur-md hidden transition-opacity" id="clear-history-modal">
+<div class="relative w-full max-w-md rounded-2xl bg-surface-container-high/90 backdrop-blur-2xl p-6 shadow-2xl flex flex-col gap-5" style="box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(239, 68, 68, 0.25);">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-error-container/30 flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined text-headline-md">warning</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-error font-bold">Erase All Chat History?</h4>
+<span class="font-label-sm text-label-sm text-error-container font-semibold">Irreversible Action</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Are you sure you want to delete all local chat transcripts from this device? Pinned media will be removed from your cache.
+      </p>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-bright font-label-lg text-label-lg font-semibold transition-colors" id="cancel-history-modal" type="button">
+          Keep Chats
+        </button>
+<button class="px-5 py-2 rounded-full bg-error-container text-on-error-container font-label-lg text-label-lg font-bold shadow-md hover:brightness-110 transition-all" id="confirm-history-modal" type="button">
+          Confirm Erase
+        </button>
+</div>
+</div>
+</div>
+<!-- Toast Notification element -->
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-full bg-surface-container-high text-on-surface shadow-2xl border-none transition-all duration-300 translate-y-16 opacity-0 pointer-events-none" id="status-toast">
+<span class="material-symbols-outlined text-primary text-headline-sm" id="toast-icon">check_circle</span>
+<span class="font-label-lg text-label-lg" id="toast-msg">Action completed successfully</span>
+</div>
+</div>
+<script>
+  (function initStorageView() {
+    // Elements
+    const cacheModal = document.getElementById('clear-cache-modal');
+    const historyModal = document.getElementById('clear-history-modal');
+    const openCacheBtn = document.getElementById('open-cache-modal-btn');
+    const cancelCacheBtn = document.getElementById('cancel-cache-modal');
+    const confirmCacheBtn = document.getElementById('confirm-cache-modal');
+    const openHistoryBtn = document.getElementById('open-history-modal-btn');
+    const cancelHistoryBtn = document.getElementById('cancel-history-modal');
+    const confirmHistoryBtn = document.getElementById('confirm-history-modal');
+    const manageStorageTrigger = document.getElementById('manage-storage-trigger');
+
+    const cacheBar = document.getElementById('bar-cache');
+    const cacheLegendVal = document.getElementById('cache-legend-val');
+    const cacheSubtext = document.getElementById('cache-subtext');
+    const storageUsedText = document.getElementById('storage-used-text');
+
+    const lowDataToggle = document.getElementById('toggle-low-data');
+    const highQualityToggle = document.getElementById('toggle-high-quality');
+    const toast = document.getElementById('status-toast');
+    const toastMsg = document.getElementById('toast-msg');
+    const toastIcon = document.getElementById('toast-icon');
+
+    function showToast(message, icon = 'check_circle', isError = false) {
+      if (!toast) return;
+      toastMsg.innerText = message;
+      toastIcon.innerText = icon;
+      toastIcon.className = `material-symbols-outlined text-headline-sm ${isError ? 'text-error' : 'text-primary'}`;
+      toast.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // Modal triggers
+    if (openCacheBtn && cacheModal) {
+      openCacheBtn.addEventListener('click', () => {
+        cacheModal.classList.remove('hidden');
+      });
+    }
+
+    if (cancelCacheBtn && cacheModal) {
+      cancelCacheBtn.addEventListener('click', () => {
+        cacheModal.classList.add('hidden');
+      });
+    }
+
+    if (confirmCacheBtn && cacheModal) {
+      confirmCacheBtn.addEventListener('click', () => {
+        cacheModal.classList.add('hidden');
+        // Animate cache clearing
+        if (cacheBar) cacheBar.style.width = '0%';
+        if (cacheLegendVal) cacheLegendVal.innerText = '0.0 MB';
+        if (cacheSubtext) cacheSubtext.innerText = 'Current size: 0.0 MB';
+        if (storageUsedText) storageUsedText.innerText = '3.25 GB';
+        showToast('App cache cleared! Reclaimed 142.8 MB');
+      });
+    }
+
+    if (openHistoryBtn && historyModal) {
+      openHistoryBtn.addEventListener('click', () => {
+        historyModal.classList.remove('hidden');
+      });
+    }
+
+    if (cancelHistoryBtn && historyModal) {
+      cancelHistoryBtn.addEventListener('click', () => {
+        historyModal.classList.add('hidden');
+      });
+    }
+
+    if (confirmHistoryBtn && historyModal) {
+      confirmHistoryBtn.addEventListener('click', () => {
+        historyModal.classList.add('hidden');
+        showToast('Chat history cleared for local storage.', 'delete_forever', true);
+      });
+    }
+
+    if (manageStorageTrigger) {
+      manageStorageTrigger.addEventListener('click', () => {
+        showToast('Analyzing media files and duplicates...', 'insights');
+      });
+    }
+
+    // Low Data mode toggle
+    if (lowDataToggle) {
+      lowDataToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          showToast('Low Data Mode enabled (Roaming saved).', 'signal_cellular_alt_1_bar');
+        } else {
+          showToast('Low Data Mode disabled.', 'signal_cellular_alt');
+        }
+      });
+    }
+
+    // High Quality Media toggle
+    if (highQualityToggle) {
+      highQualityToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          showToast('Full resolution upload enabled.', 'high_quality');
+        } else {
+          showToast('Compressed upload active.', 'photo_size_select_large');
+        }
+      });
+    }
+
+    // Close modals on clicking outside glass panel
+    [cacheModal, historyModal].forEach(modal => {
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+          }
+        });
+      }
+    });
+  })();
+</script></main>
+<!-- END: MainContentGrid -->
+</div>
+<!-- END: Application Container -->
+<!-- Feedback notification script for button click -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const saveBtn = document.getElementById('save-profile-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const originalText = saveBtn.innerText;
+          saveBtn.innerText = 'Changes Saved! ✓';
+          saveBtn.classList.add('opacity-90');
+          setTimeout(() => {
+            saveBtn.innerText = originalText;
+            saveBtn.classList.remove('opacity-90');
+          }, 1800);
+        });
+      }
+    });
+  </script>
+</body></html>
